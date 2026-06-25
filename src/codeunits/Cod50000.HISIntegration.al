@@ -881,8 +881,8 @@ codeunit 50000 "E3 HIS Integration Mgmt."
                     //GenJournalLine.VALIDATE("Bal. Account Type", GenJournalLine."Bal. Account Type"::"G/L Account");
                     GenJournalLine.VALIDATE("Cheque Date", HISSettlementStaging."Cheque Date");
                     GenJournalLine.VALIDATE("Cheque No.", COPYSTR(HISSettlementStaging."Cheque No.", 1, 10));
-                    GenJournalLine.validate("Bal. Account Type", HISSettlementStaging."Bal. Account Type"::Customer);
-                    GenJournalLine.validate("Bal. Account No.", HISSettlementStaging."Sponsor Code");
+                    GenJournalLine.validate("Bal. Account Type", HISSettlementStaging."Bal. Account Type");
+                    GenJournalLine.validate("Bal. Account No.", HISSettlementStaging."Bal. Account No");
                     if HISSettlementStaging."Shortcut Dimension 1 Code" <> '' then begin
                         GenJournalLine.VALIDATE("Location Code", HISSettlementStaging."Shortcut Dimension 1 Code");
                         GenJournalLine.VALIDATE("Shortcut Dimension 1 Code", HISSettlementStaging."Shortcut Dimension 1 Code");

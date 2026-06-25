@@ -344,7 +344,8 @@ report 50018 "Purchase Tax Register"
         ExcelBuf.AddColumn('Department Code', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Dimension2
         ExcelBuf.AddColumn('Document No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Document No.
         ExcelBuf.AddColumn('Receipt/Return No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);
-        ExcelBuf.AddColumn('Vendor Invoice Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Document Date
+        ExcelBuf.AddColumn('Document Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Document Date
+        ExcelBuf.AddColumn('Order No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Order No.
         ExcelBuf.AddColumn('Document Type', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Document Type
         ExcelBuf.AddColumn('Type', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Type
         ExcelBuf.AddColumn('Item No./GL No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Item No.
@@ -427,15 +428,8 @@ report 50018 "Purchase Tax Register"
         ExcelBuf.AddColumn("Purch. Inv. Line"."Document No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Document No
         ExcelBuf.AddColumn("Purch. Inv. Line"."Receipt No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);
         PurchInvHeader.Get("Purch. Inv. Line"."Document No.");
-        HisPurchSalesHeader.Reset();
-        HisPurchSalesHeader.SetRange("Record Type", HisPurchSalesHeader."Record Type"::GRN);
-        HisPurchSalesHeader.SetRange("Document Type", HisPurchSalesHeader."Document Type"::Order);
-        HisPurchSalesHeader.SetRange("Document No.", "Purch. Inv. Line"."Document No.");
-        IF HisPurchSalesHeader.FindFirst() then
-            ExcelBuf.AddColumn(HisPurchSalesHeader."Vendor Invoice Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Date)//Document Date
-        else
-            ExcelBuf.AddColumn('', false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Document Date
-
+        ExcelBuf.AddColumn(PurchInvHeader."Document Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Date);//Document Date
+        ExcelBuf.AddColumn("Purch. Inv. Line"."Order No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Order No.
         ExcelBuf.AddColumn('Purchase Invoice', false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Document Type
         ExcelBuf.AddColumn("Purch. Inv. Line".Type, false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Type
 
@@ -663,15 +657,8 @@ report 50018 "Purchase Tax Register"
         ExcelBuf.AddColumn("Purch. Cr. Memo Line"."Document No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Document No
         ExcelBuf.AddColumn("Purch. Cr. Memo Line"."Return Shipment No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);
         PurchCrMemoHdr.Get("Purch. Cr. Memo Line"."Document No.");
-        HisPurchSalesHeader.Reset();
-        HisPurchSalesHeader.SetRange("Record Type", HisPurchSalesHeader."Record Type"::"GRN Return");
-        HisPurchSalesHeader.SetRange("Document Type", HisPurchSalesHeader."Document Type"::"Return Order");
-        HisPurchSalesHeader.SetRange("Document No.", "Purch. Cr. Memo Line"."Document No.");
-        IF HisPurchSalesHeader.FindFirst() then
-            ExcelBuf.AddColumn(HisPurchSalesHeader."Vendor Invoice Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Date)//Document Date
-        else
-            ExcelBuf.AddColumn('', false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Document Date
-
+        ExcelBuf.AddColumn(PurchCrMemoHdr."Document Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Date);//Document Date
+        ExcelBuf.AddColumn("Purch. Cr. Memo Line"."Order No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Order No.
         ExcelBuf.AddColumn('Purchase Credit Note', false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Document Type
         ExcelBuf.AddColumn("Purch. Cr. Memo Line".Type, false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Type
 

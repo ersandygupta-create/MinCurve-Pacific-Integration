@@ -20,6 +20,15 @@ pageextension 50061 "E3 HIS Purchase Invoice Card" extends "Purchase Invoice"
                 end;
             }
         }
+        addafter("No.")
+        {
+            field("TransactionType"; Rec."Transaction Type")
+            {
+                Caption = 'Transaction Type';
+                ApplicationArea = All;
+                ToolTip = 'Transaction Type';
+            }
+        }
     }
     local procedure UpdatePurchCommentLines(PurchaseHeader: Record "Purchase Header")
     var

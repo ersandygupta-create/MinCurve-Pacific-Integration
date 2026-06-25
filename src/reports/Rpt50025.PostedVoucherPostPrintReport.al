@@ -14,6 +14,9 @@ report 50025 "Posted Voucher - Post Voucher"
                                 ORDER(Descending);
             RequestFilterFields = "Posting Date", "Document No.";
 
+            column(Narration; "G/L Entry"."E3 Narration") { }
+            column(VouchNarr; "G/L Entry"."E3 Voucher Narration") { }
+            column(LineNarr; "G/L Entry"."E3 Line Narration") { }
             column(VoucherSourceDesc; SourceDesc + ' Voucher') { }
             column(DocumentNo_GLEntry; VoucherNoCaptionLbl + ' ' + "Document No.") { }
             column(LocationName; LocationName) { }

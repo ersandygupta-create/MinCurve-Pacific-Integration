@@ -51,16 +51,16 @@ page 50083 "E3 HIS Settlement Stagging"
                     ToolTip = 'Specifies the value of the Amount field';
                     ApplicationArea = All;
                 }
-                // field("Bal. Account Type"; Rec."Bal. Account Type")
-                // {
-                //     ToolTip = 'Specifies the value of the Bal. Account Type field';
-                //     ApplicationArea = All;
-                // }
-                // field("Bal. Account No"; Rec."Bal. Account No")
-                // {
-                //     ToolTip = 'Specifies the value of the Bal. Account No field';
-                //     ApplicationArea = All;
-                // }
+                field("Bal. Account Type"; Rec."Bal. Account Type")
+                {
+                    ToolTip = 'Specifies the value of the Bal. Account Type field';
+                    ApplicationArea = All;
+                }
+                field("Bal. Account No"; Rec."Bal. Account No")
+                {
+                    ToolTip = 'Specifies the value of the Bal. Account No field';
+                    ApplicationArea = All;
+                }
                 field("External Document No."; Rec."External Document No.")
                 {
                     ToolTip = 'Specifies the value of the External Document No. field';
@@ -138,11 +138,11 @@ page 50083 "E3 HIS Settlement Stagging"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Sponsor Name field.';
                 }
-                // field("Payer Code"; Rec."Payer Code")
-                // {
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the Payer Code field.';
-                // }
+                field("Payer Code"; Rec."Payer Code")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Payer Code field.';
+                }
                 field("Payer Name"; Rec."Payer Name")
                 {
                     ApplicationArea = All;

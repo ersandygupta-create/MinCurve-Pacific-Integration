@@ -65,16 +65,16 @@ page 50084 "E3 Posted HIS Sett. Stagging"
                     ToolTip = 'Specifies the value of the Account No. field';
                     ApplicationArea = All;
                 }
-                // field("Bal. Account Type"; Rec."Bal. Account Type")
-                // {
-                //     ToolTip = 'Specifies the value of the Bal. Account Type field';
-                //     ApplicationArea = All;
-                // }
-                // field("Bal. Account No"; Rec."Bal. Account No")
-                // {
-                //     ToolTip = 'Specifies the value of the Bal. Account No field';
-                //     ApplicationArea = All;
-                // }
+                field("Bal. Account Type"; Rec."Bal. Account Type")
+                {
+                    ToolTip = 'Specifies the value of the Bal. Account Type field';
+                    ApplicationArea = All;
+                }
+                field("Bal. Account No"; Rec."Bal. Account No")
+                {
+                    ToolTip = 'Specifies the value of the Bal. Account No field';
+                    ApplicationArea = All;
+                }
                 field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
                 {
                     ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field';

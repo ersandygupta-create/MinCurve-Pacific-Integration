@@ -31,6 +31,15 @@ pageextension 50009 "E3 HIS Purchase Order" extends "Purchase Order"
                 ToolTip = 'Specifies the value of the Advance PO field';
             }
         }
+        addafter("No.")
+        {
+            field("TransactionType"; Rec."Transaction Type")
+            {
+                Caption = 'Transaction Type';
+                ApplicationArea = All;
+                ToolTip = 'Transaction Type';
+            }
+        }
     }
 
     // actions
