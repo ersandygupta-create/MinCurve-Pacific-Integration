@@ -99,6 +99,11 @@ tableextension 50005 "E3 HIS Purchase Header" extends "Purchase Header"
             Caption = 'Integration PO';
             Editable = false;
         }
+        field(50017; InvoiceBy; Text[100])
+        {
+            Caption = 'Invoice By';
+            DataClassification = CustomerContent;
+        }
 
 
     }

@@ -49,7 +49,11 @@ tableextension 50006 "E3 HIS Purch. Rcpt. Header" extends "Purch. Rcpt. Header"
         {
             DataClassification = ToBeClassified;
         }
-
+        field(50017; InvoiceBy; Text[100])
+        {
+            Caption = 'Invoice By';
+            DataClassification = CustomerContent;
+        }
 
     }
 }

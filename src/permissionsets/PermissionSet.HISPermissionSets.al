@@ -190,5 +190,21 @@ permissionset 50000 "E3 HIS Permission"
         table "E3 API Suppl Update Log ITDose" = X,
         tabledata "E3 API Suppl Update Log ITDose" = RIMD,
         Table "HIS Allow Posting Date" = X,
-        tabledata "HIS Allow Posting Date" = RIMD;
+        tabledata "HIS Allow Posting Date" = RIMD,
+        table "E3 Item Make Master" = X,
+        tabledata "E3 Item Make Master" = RIMD,
+        page "E3 Item Make Master" = X,
+        table "E3 Purchase Indent Header" = X,
+        tabledata "E3 Purchase Indent Header" = RIMD,
+        table "E3 Purchase Indent Line" = X,
+        tabledata "E3 Purchase Indent Line" = RIMD,
+        table "E3 Indenter Master" = X,
+        tabledata "E3 Indenter Master" = RIMD,
+        table "E3 Released Indent Details" = X,
+        tabledata "E3 Released Indent Details" = RIMD,
+        page "E3 Indenter Master List" = X,
+        table "E3 Voucher Type" = X,
+        tabledata "E3 Voucher Type" = RIMD,
+        page "E3 Voucher Types" = X;
+
 }

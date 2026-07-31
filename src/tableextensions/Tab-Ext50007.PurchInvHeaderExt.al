@@ -55,7 +55,10 @@ tableextension 50007 "E3 HIS Purch. Inv. Header" extends "Purch. Inv. Header"
         {
             DataClassification = ToBeClassified;
         }
-
-
+        field(50017; InvoiceBy; Text[100])
+        {
+            Caption = 'Invoice By';
+            DataClassification = CustomerContent;
+        }
     }
 }

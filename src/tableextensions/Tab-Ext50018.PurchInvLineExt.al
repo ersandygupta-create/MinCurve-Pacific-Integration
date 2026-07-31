@@ -33,6 +33,26 @@ tableextension 50018 "E3 HIS Purch. Inv. Line" extends "Purch. Inv. Line"
             Caption = 'Station SI No';
             DataClassification = ToBeClassified;
         }
+        field(50008; "Service Start Date"; Date)
+        {
+            Caption = 'Service Start Date';
+            DataClassification = CustomerContent;
+        }
+        field(50009; "Service End Date"; Date)
+        {
+            Caption = 'Service End Date';
+            DataClassification = CustomerContent;
+        }
+        field(50010; "Indent No."; Code[20])
+        {
+            Caption = 'Indent No.';
+            DataClassification = CustomerContent;
+        }
+        field(50011; "Indent Line No."; Integer)
+        {
+            Caption = 'Indent Line No.';
+            DataClassification = CustomerContent;
+        }
 
     }
 }

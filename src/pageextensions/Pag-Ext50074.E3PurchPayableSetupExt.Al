@@ -22,6 +22,11 @@ pageextension 50075 "E3 Purch Payble Extension" extends 460
                 ApplicationArea = All;
                 ToolTip = 'Specify a GRN Vendor Code Check field.';
             }
+            field("Indent Nos."; Rec."Indent Nos.")
+            {
+                ApplicationArea = All;
+            }
+
 
         }
     }

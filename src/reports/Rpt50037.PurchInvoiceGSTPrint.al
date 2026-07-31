@@ -129,6 +129,9 @@ report 50037 "Purchase Invoice Print GST"
                     column(PayVendNo_PurchInvHeader; "Purch. Inv. Header"."Pay-to Vendor No.")
                     {
                     }
+                    column(InvoiceBy; "Purch. Inv. Header".InvoiceBy)
+                    {
+                    }
                     column(BuyfrVendNo_PurchInvHeaderCaption; "Purch. Inv. Header".FieldCaption("Buy-from Vendor No."))
                     {
                     }
@@ -514,6 +517,12 @@ report 50037 "Purchase Invoice Print GST"
                         {
                         }
                         column(TDSAmt; Round(TDSAmt, 1))
+                        {
+                        }
+                        column(Service_Start_Date; Format("Service Start Date"))
+                        {
+                        }
+                        column(Service_End_Date; Format("Service End Date"))
                         {
                         }
                         column(txtLedgerDescription; txtLedgerDescription)

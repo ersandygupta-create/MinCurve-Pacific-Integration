@@ -19,6 +19,11 @@ pageextension 50061 "E3 HIS Purchase Invoice Card" extends "Purchase Invoice"
                     UpdatePurchCommentLines(Rec);
                 end;
             }
+            field(InvoiceBy; Rec.InvoiceBy)
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the InvoiceBy field';
+            }
         }
         addafter("No.")
         {

@@ -30,6 +30,11 @@ pageextension 50009 "E3 HIS Purchase Order" extends "Purchase Order"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Advance PO field';
             }
+            field(InvoiceBy; Rec.InvoiceBy)
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the InvoiceBy field';
+            }
         }
         addafter("No.")
         {

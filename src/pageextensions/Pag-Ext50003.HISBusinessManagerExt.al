@@ -1115,11 +1115,90 @@ pageextension 50003 "E3 HIS Business Manager RC" extends "Business Manager Role 
                         ToolTip = 'Executes the Posted LIS Sett. Stagging action.';
                         Caption = 'Posted Settlement Stagging';
                     }
-
+                }
+            }
+        }
+        addbefore(Action39)
+        {
+            group("E3 Indent Module")
+            {
+                Caption = 'Indent Module';
+                group(CreateIndent)
+                {
+                    Caption = 'Create Indent';
+                    action("E3 Indent Entries")
+                    {
+                        AccessByPermission = TableData "E3 Purchase Indent Header" = IMD;
+                        ApplicationArea = Basic, Suite;
+                        Caption = 'System Indent Entries';
+                        Image = Archive;
+                        RunObject = Page "E3 Purchase Indent List";
+                        RunPageMode = Create;
+                        ToolTip = 'Executes the Create Indent Entries action.';
+                    }
+                    action("E3 HIS Indent Entries")
+                    {
+                        AccessByPermission = TableData "E3 Purchase Indent Header" = IMD;
+                        ApplicationArea = Basic, Suite;
+                        Caption = 'HIS Indent Entries';
+                        Image = Archive;
+                        RunObject = Page "E3 HIS Indent List";
+                        RunPageMode = Create;
+                        ToolTip = 'Executes the Create Indent Entries action.';
+                    }
+                }
+                group(ApprovedIndent)
+                {
+                    Caption = 'Approved Indent';
+                    Image = Approved;
+                    action(ApprovedIndents)
+                    {
+                        Caption = 'System Approved Indent List';
+                        ApplicationArea = All;
+                        RunObject = Page "E3 Approved Indent List";
+                        ToolTip = 'Specify a value System Approved Indent List field.';
+                    }
+                    action(HISApprovedIndents)
+                    {
+                        Caption = 'HIS Approved Indent List';
+                        ApplicationArea = All;
+                        RunObject = Page "E3 Approved HIS Indent List";
+                        ToolTip = 'Executes the Vendor Quotation action.';
+                    }
+                }
+                group(Quotation)
+                {
+                    Caption = 'Quotation';
+                    Image = Quote;
+                    action(VendorQuotation)
+                    {
+                        Caption = 'Vendor Quotation';
+                        ApplicationArea = All;
+                        RunObject = Page "E3 Quotation List";
+                        ToolTip = 'Executes the Vendor Quotation action.';
+                    }
+                    action(ReleasedQoutation)
+                    {
+                        Caption = 'Released Quotation';
+                        ApplicationArea = All;
+                        RunObject = Page "E3 Released Indent Details";
+                        ToolTip = 'Executes the Released Quotation List action.';
+                    }
+                }
+                action("E3 Item Make Master")
+                {
+                    AccessByPermission = TableData "E3 Item Make Master" = IMD;
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Item Make Master';
+                    Image = Archive;
+                    RunObject = Page "E3 Item Make Master";
+                    RunPageMode = Create;
+                    ToolTip = 'Executes the Create Make Entries action.';
                 }
             }
         }
     }
 }
+
 
 

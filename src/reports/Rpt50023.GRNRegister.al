@@ -280,6 +280,7 @@ report 50023 "GRN Report"
         ExcelBuf.AddColumn('GRN Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Transaction Type
         ExcelBuf.AddColumn('Invoice No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Financial Quarter
         ExcelBuf.AddColumn('Invoice Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Transaction Type
+        ExcelBuf.AddColumn('InvoiceBy', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//InvoiceBy
         ExcelBuf.AddColumn('Business Unit', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Type of Document
         ExcelBuf.AddColumn('Posting Description', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Posting Description
         ExcelBuf.AddColumn('Department Name', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Dept Name
@@ -297,6 +298,9 @@ report 50023 "GRN Report"
         //ExcelBuf.AddColumn('Vendor Invoice date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Gen_ Prod_ Posting Group
         ExcelBuf.AddColumn('Created by', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Product Group Code		
         ExcelBuf.AddColumn('Creation date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Customer No
+        ExcelBuf.AddColumn('Service Start Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Service Start Date
+        ExcelBuf.AddColumn('Service End Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Service end Date
+
 
     end;
 
@@ -336,6 +340,7 @@ report 50023 "GRN Report"
         if PurchaseHeader.FindFirst() then;
         ExcelBuf.AddColumn(PurchaseHeader."Vendor Invoice No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
         ExcelBuf.AddColumn(PurchaseHeader."Document Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
+        ExcelBuf.AddColumn(PurchRecHeader.InvoiceBy, false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);
         ExcelBuf.AddColumn(PurchRecHeader."Shortcut Dimension 1 Code", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
         ExcelBuf.AddColumn(PurchRecHeader."Posting Description", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Posting Description
         DimensionValue.Reset();
@@ -356,6 +361,9 @@ report 50023 "GRN Report"
         ExcelBuf.AddColumn(("Purch. Rcpt. Line"."Direct Unit Cost") * ("Purch. Rcpt. Line"."Qty. Rcd. Not Invoiced"), false, '', false, false, false, '', ExcelBuf."Cell Type"::Number);//company
         ExcelBuf.AddColumn(UserName, false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
         ExcelBuf.AddColumn(PurchRecHeader.SystemCreatedAt, false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
+        ExcelBuf.AddColumn("Purch. Rcpt. Line"."Service Start Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Date);//Service Start Date
+        ExcelBuf.AddColumn("Purch. Rcpt. Line"."Service End Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Date);//Service end Date
+
     end;
 
 

@@ -276,6 +276,7 @@ report 50021 "Purchase Order Register"
         ExcelBuf.AddColumn('Currency', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Financial Quarter
         ExcelBuf.AddColumn('PO Status', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Month Name
         ExcelBuf.AddColumn('Order Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Transaction Type
+        ExcelBuf.AddColumn('InvoiceBy', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//InvoiceBy
         ExcelBuf.AddColumn('Delivery time', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//GST Doc Type
         ExcelBuf.AddColumn('PO Expiry', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Invoice Type
         ExcelBuf.AddColumn('Business Unit', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Type of Document
@@ -305,6 +306,8 @@ report 50021 "Purchase Order Register"
         ExcelBuf.AddColumn('Payment Terms', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Payment Terms
         ExcelBuf.AddColumn('Remarks ', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Comment
         ExcelBuf.AddColumn('Delivery Terms ', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Delivery Terms
+        ExcelBuf.AddColumn('Service Start Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Service Start Date
+        ExcelBuf.AddColumn('Service End Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Service end Date
 
     end;
 
@@ -341,6 +344,7 @@ report 50021 "Purchase Order Register"
         ExcelBuf.AddColumn(PurchaseHeader."Currency Code", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
         ExcelBuf.AddColumn(PurchaseHeader.Status, false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
         ExcelBuf.AddColumn(PurchaseHeader."Order Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
+        ExcelBuf.AddColumn(PurchaseHeader.InvoiceBy, false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
         ExcelBuf.AddColumn('', false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
         ExcelBuf.AddColumn('', false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
         ExcelBuf.AddColumn(PurchaseHeader."Shortcut Dimension 1 Code", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
@@ -428,6 +432,8 @@ report 50021 "Purchase Order Register"
         End;
         ExcelBuf.AddColumn(txtcommentNote, false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
         ExcelBuf.AddColumn(PurchaseHeader."E3 Delivery Terms", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Delivery terms
+        ExcelBuf.AddColumn("Purchase Line"."Service Start Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Date);//Service Start Date
+        ExcelBuf.AddColumn("Purchase Line"."Service End Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Date);//Service end Date
 
     end;
 

@@ -17,6 +17,13 @@ tableextension 50067 "E3 Purchase Payable Setup Ext" extends "Purchases & Payabl
             Caption = 'GRN Vendor Code Check';
             DataClassification = CustomerContent;
         }
+        field(50003; "Indent Nos."; Code[20])
+        {
+            Caption = 'Indent Nos.';
+            DataClassification = CustomerContent;
+            TableRelation = "No. Series";
+        }
+
 
     }
 

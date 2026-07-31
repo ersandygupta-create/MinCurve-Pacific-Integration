@@ -345,12 +345,15 @@ report 50018 "Purchase Tax Register"
         ExcelBuf.AddColumn('Document No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Document No.
         ExcelBuf.AddColumn('Receipt/Return No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);
         ExcelBuf.AddColumn('Document Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Document Date
+        ExcelBuf.AddColumn('InvoiceBy', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);
         ExcelBuf.AddColumn('Order No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Order No.
         ExcelBuf.AddColumn('Document Type', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Document Type
         ExcelBuf.AddColumn('Type', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Type
         ExcelBuf.AddColumn('Item No./GL No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Item No.
         ExcelBuf.AddColumn('Item Description', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Item Description
         ExcelBuf.AddColumn('Posting Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Posting Date
+        ExcelBuf.AddColumn('Service Start Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn('Service End Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);
         ExcelBuf.AddColumn('Vendor Invoice/Cr. Memo No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Vendor Invoice No.
         ExcelBuf.AddColumn('Place Of Supply', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Seller State
         ExcelBuf.AddColumn('Buy-from Vendor No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Buy-from Vendor No.
@@ -429,6 +432,7 @@ report 50018 "Purchase Tax Register"
         ExcelBuf.AddColumn("Purch. Inv. Line"."Receipt No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);
         PurchInvHeader.Get("Purch. Inv. Line"."Document No.");
         ExcelBuf.AddColumn(PurchInvHeader."Document Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Date);//Document Date
+        ExcelBuf.AddColumn(PurchInvHeader.InvoiceBy, false, '', false, false, false, '', ExcelBuf."Cell Type"::Date);
         ExcelBuf.AddColumn("Purch. Inv. Line"."Order No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Order No.
         ExcelBuf.AddColumn('Purchase Invoice', false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Document Type
         ExcelBuf.AddColumn("Purch. Inv. Line".Type, false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Type
@@ -460,6 +464,8 @@ report 50018 "Purchase Tax Register"
             ExcelBuf.AddColumn("Purch. Inv. Line".Description + '' + "Purch. Inv. Line"."Description 2", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//ItemName
 
         ExcelBuf.AddColumn(("Purch. Inv. Line"."Posting Date"), false, '', false, false, false, '', ExcelBuf."Cell Type"::Date);//Posting Date
+        ExcelBuf.AddColumn(("Purch. Inv. Line"."Service Start Date"), false, '', false, false, false, '', ExcelBuf."Cell Type"::Date);
+        ExcelBuf.AddColumn(("Purch. Inv. Line"."Service End Date"), false, '', false, false, false, '', ExcelBuf."Cell Type"::Date);
         IF PurchInvHeader."Vendor Invoice No." <> '' then
             ExcelBuf.AddColumn(PurchInvHeader."Vendor Invoice No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text)//Vendor Invoice No_
         else
