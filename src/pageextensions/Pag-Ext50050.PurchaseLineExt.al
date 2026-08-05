@@ -15,6 +15,18 @@ pageextension 50050 "E3 HIS Purch. Order Subform" extends "Purchase Order Subfor
                 ApplicationArea = All;
                 ToolTip = 'Specifies the service end date.';
             }
+            field("Indent No."; Rec."Indent No.")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                ToolTip = 'Specifies the Indent No.';
+            }
+            field("Indent Line No."; Rec."Indent Line No.")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                ToolTip = 'Specifies the Indent Line No.';
+            }
         }
     }
 }

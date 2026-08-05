@@ -60,5 +60,10 @@ tableextension 50007 "E3 HIS Purch. Inv. Header" extends "Purch. Inv. Header"
             Caption = 'Invoice By';
             DataClassification = CustomerContent;
         }
+        field(50018; "Indent No."; Code[20])
+        {
+            Caption = 'Indent No.';
+            DataClassification = CustomerContent;
+        }
     }
 }

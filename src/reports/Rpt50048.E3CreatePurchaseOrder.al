@@ -112,6 +112,7 @@ report 50048 "E3 Create Purchase Order"
         PurchaseHeader."Document Type" := PurchaseHeader."Document Type"::Order;
         PurchaseHeader."No." := NoSeriesManagement.GetNextNo(NoSeries, Today, true);
         PurchaseHeader."E3 Capex Type" := IndentHeader."Procurement Type";
+        PurchaseHeader."Indent No." := IndentHeader."Document No.";
         PurchaseHeader.Insert(true);
         Case PurchHeaderType of
             1:
