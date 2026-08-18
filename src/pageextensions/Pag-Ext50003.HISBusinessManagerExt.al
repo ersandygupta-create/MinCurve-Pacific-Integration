@@ -1145,6 +1145,7 @@ pageextension 50003 "E3 HIS Business Manager RC" extends "Business Manager Role 
                         RunObject = Page "E3 HIS Indent List";
                         RunPageMode = Create;
                         ToolTip = 'Executes the Create Indent Entries action.';
+                        Visible = false;
                     }
                 }
                 group(ApprovedIndent)
@@ -1164,6 +1165,7 @@ pageextension 50003 "E3 HIS Business Manager RC" extends "Business Manager Role 
                         ApplicationArea = All;
                         RunObject = Page "E3 Approved HIS Indent List";
                         ToolTip = 'Executes the Vendor Quotation action.';
+                        Visible = false;
                     }
                 }
                 group(Quotation)

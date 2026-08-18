@@ -26,13 +26,13 @@ page 50126 "E3 LIMS Revenue Setup"
                 }
                 field("Profit Center ID"; Rec."Service/Station Head")
                 {
-                    Caption = 'HIS Document Type';
+                    Caption = 'LIMS Document Type';
                     ToolTip = 'Specifies the value of the Service Head field';
                     ApplicationArea = All;
                 }
                 field("Profit Center Name"; Rec."Service/Station Head Name")
                 {
-                    Caption = 'HIS Document Name';
+                    Caption = 'LIMS Document Name';
                     ToolTip = 'Specifies the value of the Service Head Name field';
                     ApplicationArea = All;
                 }
@@ -46,6 +46,7 @@ page 50126 "E3 LIMS Revenue Setup"
                 {
                     ApplicationArea = ALL;
                     ToolTip = 'Specifies the value of the HIS Code field.';
+                    Caption = 'Service Item Code';
                 }
                 field(Package; Rec.Package)
                 {

@@ -30,6 +30,7 @@ page 50056 "E3 HIS Posted Rev Cancel List"
                 // }
                 field("HIS Document Type"; Rec."HIS Document Type")
                 {
+                    Caption = 'LIMS Document Type';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the HIS Document Type field.';
                 }

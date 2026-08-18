@@ -119,6 +119,18 @@ page 50129 "E3 LIMS Revenue Subform"
                     Caption = 'MOU Discount';
                     ToolTip = 'Specifies the value of the MOU Discount field.';
                 }
+                field("HSN Code"; Rec."HSN Code")
+                {
+                    ToolTip = 'Specifies the value of the HSN Code field';
+                    ApplicationArea = All;
+                    Caption = 'HSN Code';
+                }
+                field("GST Group Code"; Rec."GST Group Code")
+                {
+                    ToolTip = 'Specifies the value of the GST Group field';
+                    ApplicationArea = All;
+                    Caption = 'GST Group Code';
+                }
                 field("Net Amount"; Rec."Net Amount")
                 {
                     ApplicationArea = All;
@@ -189,6 +201,7 @@ page 50129 "E3 LIMS Revenue Subform"
                     ApplicationArea = All;
                     Caption = 'Specility Name';
                 }
+
             }
         }
     }

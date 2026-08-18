@@ -26,6 +26,7 @@ page 50131 "E3 LIMS Revenue Cancel List"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the HIS Document Type field.';
+                    caption = 'LIMS Document Type';
                 }
                 field("Document No."; Rec."Document No.")
                 {

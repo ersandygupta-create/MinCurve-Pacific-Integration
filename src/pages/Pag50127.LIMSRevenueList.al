@@ -31,6 +31,7 @@ page 50127 "E3 LIMS Revenue List"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the HIS Document Type field.';
+                    Caption = 'LIMS Document Type';
                 }
                 field("Document No."; Rec."Document No.")
                 {

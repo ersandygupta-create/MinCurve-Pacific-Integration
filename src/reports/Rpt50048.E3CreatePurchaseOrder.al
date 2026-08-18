@@ -184,6 +184,7 @@ report 50048 "E3 Create Purchase Order"
         PurchaseLine.Validate("Description 2", CopyStr(IndentLine.Remarks, 1, 50));
 
         PurchaseLine."Vendor Item No." := IndentLine."No.";
+        PurchaseLine.Validate("GST Credit", "GST Credit"::"Non-Availment");
         PurchaseLine.Insert(true);
         InsertIndentLineDetails(IndentLine);
     end;
