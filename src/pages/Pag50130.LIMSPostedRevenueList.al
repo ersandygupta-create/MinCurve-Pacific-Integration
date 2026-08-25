@@ -32,6 +32,7 @@ page 50130 "E3 Posted LIMS Revenue List"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the HIS Document Type field.';
+                    Caption = 'LIMS Document Type';
                 }
                 field("Document No."; Rec."Document No.")
                 {

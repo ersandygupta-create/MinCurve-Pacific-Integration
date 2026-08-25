@@ -32,6 +32,7 @@ page 50134 "E3 LIMS Posted Rev Can. List"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the HIS Document Type field.';
+                    caption = 'LIMS Document Type';
                 }
                 field("Document No."; Rec."Document No.")
                 {

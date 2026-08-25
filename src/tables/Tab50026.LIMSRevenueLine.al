@@ -307,6 +307,7 @@ table 50026 "E3 LIMS Revenue Line"
     trigger OnInsert()
     BEGIN
         GetHISIntegrationSalesHdr();
+        rec."Account Type" := "Account Type"::"G/L Account";
     END;
 
     var
