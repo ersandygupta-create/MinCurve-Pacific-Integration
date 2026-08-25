@@ -1,4 +1,4 @@
-report 50054 "E3 Pro Forma Sales Invoice"
+report 50049 "E3 Pro Forma Sales Invoice"
 {
     Caption = 'Pro Forma Sales Invoice';
     UsageCategory = ReportsAndAnalysis;
