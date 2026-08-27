@@ -28,7 +28,7 @@ page 50197 "E3 Purchase Indent Card"
                 field(Indentor; Rec.Indenter)
                 {
                     ApplicationArea = All;
-                    Editable = IsPageEditable;
+                    Editable = false;
                 }
                 field("Requested To"; Rec."Requested To")
                 {

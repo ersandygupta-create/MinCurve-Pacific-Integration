@@ -20,7 +20,7 @@ table 50004 "E3 HIS GL Accounts Mapping"
             Caption = 'Type';
             DataClassification = CustomerContent;
         }
-        field(3; "Service/Station Head"; Code[30])
+        field(3; "Service/Station Head"; Code[60])
         {
             Caption = 'Service/Station Head';
             DataClassification = CustomerContent;

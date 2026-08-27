@@ -13,7 +13,7 @@ table 50036 "E3 Purchase Indent Header"
         }
         field(2; "Requested To"; Text[60])
         {
-            Caption = 'Requested To';
+            Caption = 'Requested By';
             DataClassification = CustomerContent;
             TableRelation = "E3 Indenter Master"."Indenter Name" where("Indenter Type" = filter("Requested By"));
 
@@ -205,6 +205,7 @@ table 50036 "E3 Purchase Indent Header"
         {
             Caption = 'Indenter';
             DataClassification = CustomerContent;
+            Editable = false;
             TableRelation = "E3 Indenter Master"."Indenter Name" where("Indenter Type" = filter(Indenter));
             trigger OnValidate()
             var
@@ -386,6 +387,7 @@ table 50036 "E3 Purchase Indent Header"
 
             "Document No." :=
                 NoSeries.GetNextNo(PurchSetup."Indent Nos.", WorkDate());
+            Indenter := UserId();
         end;
     end;
 
