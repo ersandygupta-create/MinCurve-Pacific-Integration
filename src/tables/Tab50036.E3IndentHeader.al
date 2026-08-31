@@ -360,6 +360,24 @@ table 50036 "E3 Purchase Indent Header"
             Caption = 'Utilized Amount';
             DataClassification = CustomerContent;
         }
+        field(35; "RequestedTo"; Code[20])
+        {
+            Caption = 'Requested To';
+            DataClassification = CustomerContent;
+            TableRelation = "Dimension Value".Code where("Dimension Code" = const('DEPT'));
+
+            trigger OnValidate()
+            var
+                dimValue: Record "Dimension Value";
+            begin
+                "To Department Code" := rec.RequestedTo;
+                dimValue.Reset();
+                dimValue.SetFilter("Dimension Code", '%1', 'DEPT');
+                dimValue.SetRange(Code, Rec.RequestedTo);
+                if dimValue.Find('-') then
+                    "To Department Name" := dimValue.Name;
+            end;
+        }
 
     }
 
@@ -387,8 +405,9 @@ table 50036 "E3 Purchase Indent Header"
 
             "Document No." :=
                 NoSeries.GetNextNo(PurchSetup."Indent Nos.", WorkDate());
-            Indenter := UserId();
+
         end;
+        Indenter := UserId();
     end;
 
     procedure AssistEdit(OldIndentHeader: Record "E3 Purchase Indent Header"): Boolean

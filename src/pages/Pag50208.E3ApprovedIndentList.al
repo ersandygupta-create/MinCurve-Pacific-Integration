@@ -67,4 +67,10 @@ page 50208 "E3 Approved Indent List"
             }
         }
     }
+    trigger OnOpenPage()
+    begin
+        Rec.SetFilter(Indenter, '%1', UserId);
+    end;
+
+
 }

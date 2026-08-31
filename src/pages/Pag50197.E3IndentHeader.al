@@ -35,6 +35,11 @@ page 50197 "E3 Purchase Indent Card"
                     ApplicationArea = All;
                     Editable = IsPageEditable;
                 }
+                field(RequestedTo; Rec.RequestedTo)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Requested to';
+                }
 
                 field("Request Date"; Rec."Request Date")
                 {
