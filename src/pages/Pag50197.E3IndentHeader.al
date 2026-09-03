@@ -88,37 +88,44 @@ page 50197 "E3 Purchase Indent Card"
                 {
                     ApplicationArea = All;
                     Editable = IsPageEditable;
+                    visible = false;
                 }
                 field("Approval Date Time"; Rec."Approval Date Time")
                 {
                     ApplicationArea = All;
                     Editable = IsPageEditable;
+                    visible = false;
                 }
                 field("Entry No."; Rec."Entry No.")
                 {
                     ApplicationArea = All;
                     Editable = IsPageEditable;
+                    visible = false;
                 }
                 field("Budget Type"; Rec."Budget Type")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the budget type for this record.';
+                    editable = false;
                 }
 
                 field("Budgeted Amount"; Rec."Budgeted Amount")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the budgeted amount for this record.';
+                    editable = false;
                 }
                 field("Utilized Amount"; Rec."Utilized Amount")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the Utilized amount for this record.';
+                    visible = false;
                 }
                 field(Amount; Rec.Amount)
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the actual amount for this record.';
+                    editable = false;
                 }
             }
 
@@ -232,10 +239,10 @@ page 50197 "E3 Purchase Indent Card"
                                       'Requested Qty must be greater than 0 for Line No. %1.',
                                       IndentLine."Line No.");
 
-                                if IndentLine."Approved Qty" <= 0 then
-                                    Error(
-                                      'Approved Qty must be greater than 0 for Line No. %1.',
-                                      IndentLine."Line No.");
+                            // if IndentLine."Approved Qty" <= 0 then
+                            //     Error(
+                            //       'Approved Qty must be greater than 0 for Line No. %1.',
+                            //       IndentLine."Line No.");
                             until IndentLine.Next() = 0;
 
                         IndentApproval.OnSendIndentDocForApproval(Rec);

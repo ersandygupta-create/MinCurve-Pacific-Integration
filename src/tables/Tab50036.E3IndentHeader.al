@@ -398,6 +398,7 @@ table 50036 "E3 Purchase Indent Header"
     var
         PurchSetup: Record "Purchases & Payables Setup";
         NoSeries: Codeunit "No. Series";
+        UserSetup: Record user;
     begin
         if "Document No." = '' then begin
             PurchSetup.Get();
@@ -407,7 +408,13 @@ table 50036 "E3 Purchase Indent Header"
                 NoSeries.GetNextNo(PurchSetup."Indent Nos.", WorkDate());
 
         end;
-        Indenter := UserId();
+        userSetup.Reset();
+        usersetup.SetRange("user name", userid());
+        if usersetup.FindFirst() then begin
+            Indenter := usersetup."user name";
+            "Indenter Name" := usersetup."Full Name";
+        end;
+
     end;
 
     procedure AssistEdit(OldIndentHeader: Record "E3 Purchase Indent Header"): Boolean

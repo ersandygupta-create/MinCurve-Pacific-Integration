@@ -11,5 +11,4 @@ pageextension 50076 E3PurchaseOrderListPage extends 9307
             }
         }
     }
-
 }

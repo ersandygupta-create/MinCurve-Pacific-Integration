@@ -116,6 +116,7 @@ table 50037 "E3 Purchase Indent Line"
             begin
                 if ("Requested Qty" <> 0) then
                     Amount := "Requested Qty" * "Unit Cost";
+                "Approved Qty" := "Requested Qty";
             end;
         }
         field(8; "Unit Cost"; Decimal)

@@ -348,8 +348,4 @@ codeunit 50001 "E3 HIS Event Subscriber"
         ToRecRef.GetTable(PurchaseHeader);
         DocumentAttachmentMgmt.CopyAttachments(FromRecRef, ToRecRef);
     end;
-
-
-
-
 }

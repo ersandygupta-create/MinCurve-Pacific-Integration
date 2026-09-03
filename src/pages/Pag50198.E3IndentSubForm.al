@@ -52,6 +52,8 @@ page 50198 "E3 Pur. Indent Line Subform"
                 {
                     ApplicationArea = All;
                     Editable = true;
+                    visible = false;
+
                 }
                 field("Unit Cost"; Rec."Unit Cost")
                 {
@@ -87,6 +89,7 @@ page 50198 "E3 Pur. Indent Line Subform"
                 {
                     ApplicationArea = All;
                     Editable = IsLineEditable;
+                    visible = false;
                 }
             }
         }

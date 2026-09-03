@@ -105,6 +105,7 @@ page 50202 "E3 Quotation Card"
                 var
                     Location: Record Location;
                     IndentLine: Record "E3 Purchase Indent Line";
+                    IndentlineRec: record "E3 Purchase Indent Line";
                 begin
                     if not Confirm('Do you want to create Purchase Order?', true) then
                         exit;
@@ -114,15 +115,24 @@ page 50202 "E3 Quotation Card"
                     Location.Get(Rec."Location Code");
                     Location.TestField("E3 Indent PO Series");
 
+                    IndentlineRec.Reset();
+                    indentlineRec.SetRange("Document No.", Rec."Document No.");
+                    if indentlineRec.FindSet() then
+                        repeat
+                            IndentLineRec.TestField("Vendor No.");
+
+                        until indentlineRec.Next() = 0;
+
+
                     IndentLine.Reset();
                     IndentLine.SetRange("Document No.", Rec."Document No.");
-
-                    Clear(CreatePurchaseOrders);
+                    if indentline.Find('-') then
+                        Clear(CreatePurchaseOrders);
                     CreatePurchaseOrders.SetNoSeries(Location."E3 Indent PO Series");
                     CreatePurchaseOrders.SetTableView(IndentLine);
                     CreatePurchaseOrders.RunModal();
 
-                    Message('Purchase Order created successfully.');
+                    // Message('Purchase Order created successfully.');
                 end;
             }
         }

@@ -76,7 +76,7 @@ report 50048 "E3 Create Purchase Order"
 
                 end;
 
-                Message('Purchase Order created for the selected records.');
+                Message('Purchase Order %1 created for the selected records.', PurchaseHeader."No.");
             end;
 
             trigger OnPreDataItem()

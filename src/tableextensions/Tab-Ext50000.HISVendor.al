@@ -98,10 +98,46 @@ tableextension 50000 "E3 HIS Vendor Ext" extends Vendor
             Error('You cannot modify the Vendor No.');
     end;
 
-    // trigger OnBeforeRename()
-    // begin
-    //     CalcFields("E3 Sync Record Exists");
-    //     if "E3 Sync Record Exists" then
-    //         Error('Record synchronized to HIS, rename is not allowed');
-    // end;
+    trigger OnBeforeInsert()
+    var
+        UserSetup: Record "User Setup";
+    begin
+        if not UserSetup.Get(UserId()) then
+            Error('User Setup is not configured for user %1.', UserId());
+
+        if not UserSetup."Vendor Insert" then
+            Error(
+                'You do not have permission to create a new Vendor. ' +
+                'Please contact your administrator.');
+    end;
+
+    trigger OnBeforeModify()
+    var
+        UserSetup: Record "User Setup";
+    begin
+        if not UserSetup.Get(UserId()) then
+            Error('User Setup is not configured for user %1.', UserId());
+
+        if not UserSetup."Vendor Modify" then
+            Error(
+                'You do not have permission to modify Vendor %1. ' +
+                'Please contact your administrator.',
+                Rec."No.");
+    end;
+
+    trigger OnBeforeDelete()
+    var
+        UserSetup: Record "User Setup";
+    begin
+        if not UserSetup.Get(UserId()) then
+            Error('User Setup is not configured for user %1.', UserId());
+
+        if not UserSetup."Vendor Delete" then
+            Error(
+                'You do not have permission to delete Vendor %1. ' +
+                'Please contact your administrator.',
+                Rec."No.");
+    end;
+
+
 }

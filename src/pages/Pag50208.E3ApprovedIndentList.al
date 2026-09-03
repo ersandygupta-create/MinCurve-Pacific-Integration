@@ -69,7 +69,9 @@ page 50208 "E3 Approved Indent List"
     }
     trigger OnOpenPage()
     begin
-        //  Rec.SetFilter(Indenter, '%1', UserId);
+        Rec.FilterGroup(2);                    // Switch to FilterGroup 2 (Locked/Page Filters)
+        Rec.SetFilter(Indenter, '%1', UserId); // Apply the locked filter
+        Rec.FilterGroup(0);
     end;
 
 
