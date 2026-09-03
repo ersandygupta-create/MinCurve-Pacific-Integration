@@ -140,6 +140,8 @@ report 50048 "E3 Create Purchase Order"
     end;
 
     local procedure CreatePurchaseLines(IndentLine: Record "E3 Purchase Indent Line"; PurchLineType: Integer)
+    var
+        IndentHeader: Record "E3 Purchase Indent Header";
     begin
         LineNo += 10000;
         PurchaseLine.Init();
@@ -175,7 +177,8 @@ report 50048 "E3 Create Purchase Order"
         PurchaseLine.Validate("Indent No.", IndentLine."Document No.");
         PurchaseLine.Validate("Indent Line No.", IndentLine."Line No.");
         PurchaseLine.Validate(PurchaseLine."Shortcut Dimension 1 Code", IndentLine."Shortcut Dimension 1 Code");
-        PurchaseLine.Validate(PurchaseLine."Shortcut Dimension 2 Code");
+        indentheader.Get(IndentLine."Document No.");
+        PurchaseLine.Validate(PurchaseLine."Shortcut Dimension 2 Code", indentheader."Shortcut Dimension 2 Code");
         PurchaseLine.Validate("Requested Receipt Date", IndentLine."Requested Received Date");
         Case PurchLineType of
             1:
