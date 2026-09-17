@@ -93,9 +93,18 @@ tableextension 50000 "E3 HIS Vendor Ext" extends Vendor
 
     }
     trigger OnBeforeRename()
+    var
+        UserSetup: Record "User Setup";
     begin
-        if (Rec."No." <> xRec."No.") and (xRec."No." <> '') then
-            Error('You cannot modify the Vendor No.');
+        if (Rec."No." <> xRec."No.") and (xRec."No." <> '') then begin
+
+            if not UserSetup.Get(UserId) then
+                Error('User Setup is not configured for user %1.', UserId);
+
+            if not UserSetup."Vendor Modify" then
+                Error('You do not have permission to modify the Vendor No.');
+
+        end;
     end;
 
     trigger OnBeforeInsert()
