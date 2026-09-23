@@ -48,8 +48,42 @@ page 50214 "E3 Salary Data List"
                 {
                     ApplicationArea = All;
                 }
+                field("Posting Date"; Rec."Posting Date")
+                {
+                    ApplicationArea = all;
+                    ToolTip = 'Posting Date';
+                }
+                field(Month; Rec.Month)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Month';
+                }
+                field(Created; Rec.Created)
+                {
+                    ApplicationArea = all;
+                    ToolTip = 'JV Created';
+                }
             }
 
+        }
+
+    }
+    actions
+    {
+        area(Processing)
+        {
+            action("Post Salary")
+            {
+                Caption = 'Post Salary';
+                ToolTip = 'Post Salary';
+                Image = Post;
+                trigger OnAction()
+                var
+                    IntegrationManagment: Codeunit "E3 HIS Integration Mgmt.";
+                begin
+                    IntegrationManagment.CreateGenJnlLinesFromSalaryData(rec);
+                end;
+            }
         }
     }
 }

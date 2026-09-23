@@ -4906,6 +4906,90 @@ codeunit 50000 "E3 HIS Integration Mgmt."
         Commit();
     end;
 
+    procedure CreateGenJnlLinesFromSalaryData(var SalaryStaging: Record "E3 Salary Data")
+    var
+        IntegrationSetup: Record "E3 HIS Integartion Setup";
+        IntegrationSetupLine: Record "E3 HIS Integration Setup Line";
+        GenJournalBatch: Record "Gen. Journal Batch";
+        GenJournalLine: Record "Gen. Journal Line";
+        GenJnlPost: Codeunit "Gen. Jnl.-Post Line";
+        NoSeriesMgt: Codeunit "No. Series"; // Use 'Codeunit "No. Series"' for BC v24+
+        NextLineNo: Integer;
+        DocNo: Code[20];
+    begin
+        // 1. Fetch & Validate Setup
+        IntegrationSetup.Get();
+        IntegrationSetup.TestField("Integration Enabled", true);
+
+        IntegrationSetupLine.Reset();
+        IntegrationSetupLine.SetRange(Type, IntegrationSetupLine.Type::Payroll);
+        IntegrationSetupLine.FindFirst();
+        IntegrationSetupLine.TestField("General Journal Template Code");
+        IntegrationSetupLine.TestField("General Journal Batch Code");
+
+        // 2. Fetch General Journal Batch setup and test No. Series
+        GenJournalBatch.Get(IntegrationSetupLine."General Journal Template Code", IntegrationSetupLine."General Journal Batch Code");
+        GenJournalBatch.TestField("No. Series");
+
+        // 3. Generate ONE Document No. from the batch No. Series
+        DocNo := NoSeriesMgt.GetNextNo(GenJournalBatch."No. Series", WorkDate(), true);
+
+        // 4. Find the last Line No. in the specified General Journal Batch
+        GenJournalLine.Reset();
+        GenJournalLine.SetRange("Journal Template Name", IntegrationSetupLine."General Journal Template Code");
+        GenJournalLine.SetRange("Journal Batch Name", IntegrationSetupLine."General Journal Batch Code");
+        if GenJournalLine.FindLast() then
+            NextLineNo := GenJournalLine."Line No." + 10000
+        else
+            NextLineNo := 10000;
+
+        // 5. Process each line from Excel/Staging data directly
+        SalaryStaging.Reset();
+        SalaryStaging.SetFilter(Created, '%1', false);
+        if SalaryStaging.FindSet() then
+            repeat
+                // Skip zero amount rows
+                if (SalaryStaging."Debit" <> 0) or (SalaryStaging."Credit" <> 0) then begin
+                    GenJournalLine.Init();
+                    GenJournalLine."Journal Template Name" := IntegrationSetupLine."General Journal Template Code";
+                    GenJournalLine."Journal Batch Name" := IntegrationSetupLine."General Journal Batch Code";
+                    GenJournalLine."Line No." := NextLineNo;
+                    NextLineNo += 10000;
+
+                    // Set Account
+                    GenJournalLine.Validate("Account Type", GenJournalLine."Account Type"::"G/L Account");
+                    GenJournalLine.Validate("Account No.", SalaryStaging.GlCode);
+
+                    // Set Dates and Generated Document No.
+                    GenJournalLine.Validate("Posting Date", SalaryStaging."Posting Date");
+                    GenJournalLine.Validate("Document Date", SalaryStaging."Posting Date");
+                    GenJournalLine."Document No." := DocNo; // Applied automatic No. Series Document No.
+
+                    // Calculate Net Amount (Debit - Credit)
+                    if SalaryStaging."Debit" <> 0 then
+                        GenJournalLine.Validate(Amount, SalaryStaging."Debit")
+                    else if SalaryStaging."Credit" <> 0 then
+                        GenJournalLine.Validate(Amount, -SalaryStaging."Credit");
+
+                    // Map Dimensions (Branch / Department / Company)
+                    if SalaryStaging.Branch <> '' then
+                        GenJournalLine.ValidateShortcutDimCode(1, SalaryStaging.Branch);
+
+                    if SalaryStaging."DepartmentName" <> '' then
+                        GenJournalLine.ValidateShortcutDimCode(2, SalaryStaging."DepartmentName");
+
+                    // Set Description / Narration
+                    GenJournalLine.Description := CopyStr(SalaryStaging."CompanyName" + ' - ' + SalaryStaging."Branch" + '-' + SalaryStaging.Month, 1, MaxStrLen(GenJournalLine.Description));
+
+                    // 6. Post or Insert depending on setup
+                    if IntegrationSetup."Payroll Direct Post" then
+                        GenJnlPost.RunWithCheck(GenJournalLine)
+                    else
+                        GenJournalLine.Insert(true);
+                end;
+            until SalaryStaging.Next() = 0;
+    end;
+
     var
         IntegrationSetup: Record "E3 HIS Integartion Setup";
         IntegrationSetupLine: Record "E3 HIS Integration Setup Line";
