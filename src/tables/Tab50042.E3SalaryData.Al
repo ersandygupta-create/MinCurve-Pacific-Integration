@@ -24,7 +24,7 @@ table 50042 "E3 Salary Data"
             DataClassification = ToBeClassified;
             Caption = 'Company Name';
         }
-        field(5; DepartmentName; Code[20])
+        field(5; DepartmentName; Code[50])
         {
             DataClassification = ToBeClassified;
             Caption = 'Department Name';
