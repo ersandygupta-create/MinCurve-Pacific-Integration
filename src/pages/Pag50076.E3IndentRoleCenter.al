@@ -46,14 +46,7 @@ page 50076 "E3 Indent Role Center"
                         RunObject = Page "E3 Purchase Indent List";
                         RunPageMode = Create;
                     }
-                    action("HIS Indent")
-                    {
-                        ApplicationArea = All;
-                        Caption = 'HIS Indent';
-                        Image = NewDocument;
-                        RunObject = Page "E3 HIS Indent List";
-                        RunPageMode = Create;
-                    }
+
                 }
                 group("Approved Indent")
                 {
@@ -66,40 +59,10 @@ page 50076 "E3 Indent Role Center"
                         Image = Approvals;
                         RunObject = Page "E3 Approved Indent List";
                     }
-                    action("HIS Approved Indent")
-                    {
-                        ApplicationArea = All;
-                        Caption = 'HIS Approved Indent';
-                        Image = Approvals;
-                        RunObject = Page "E3 Approved HIS Indent List";
-                    }
-                }
-                group(Quotation)
-                {
-                    Caption = 'Quotation';
 
-                    action("Vendor Quotation")
-                    {
-                        ApplicationArea = All;
-                        Caption = 'Vendor Quotation';
-                        Image = Quote;
-                        RunObject = Page "E3 Quotation List";
-                    }
-                    action("Released Quotation")
-                    {
-                        ApplicationArea = All;
-                        Caption = 'Released Quotation';
-                        Image = Quote;
-                        RunObject = Page "E3 Released Indent Details";
-                    }
                 }
-                action("Item Make Master")
-                {
-                    ApplicationArea = All;
-                    Caption = 'Item Make Master';
-                    Image = Item;
-                    RunObject = Page "E3 Item Make Master";
-                }
+
+
             }
         }
         // area(Creation)
@@ -121,31 +84,14 @@ page 50076 "E3 Indent Role Center"
                 Image = View;
                 RunObject = Page "E3 Purchase Indent List";
             }
-            action(HISIndent)
-            {
-                Caption = 'HIS Indent';
-                Image = View;
-                RunObject = Page "E3 HIS Indent List";
-            }
+
             action(ApprovedIndentList)
             {
                 Caption = 'Approved Indents';
                 Image = Approvals;
                 RunObject = Page "E3 Approved Indent List";
             }
-            action(VendorQuotationList)
-            {
-                Caption = 'Vendor Quotation';
-                Image = Quote;
-                RunObject = Page "E3 Quotation List";
-            }
-            action(ItemMake)
-            {
-                Caption = 'Item Make Master';
-                Image = Item;
-                ApplicationArea = All;
-                RunObject = Page "E3 Item Make Master";
-            }
+
         }
 
         // area(Reporting)

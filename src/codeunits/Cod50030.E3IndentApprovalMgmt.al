@@ -1,5 +1,11 @@
 codeunit 50030 "E3 Indent Approval Mgmt."
 {
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Page Management", 'OnConditionalCardPageIDNotFound', '', false, false)]
+    local procedure OnConditionalCardPageIDNotFound(RecordRef: RecordRef; var CardPageID: Integer)
+    begin
+        if RecordRef.Number = Database::"E3 Purchase Indent Header" then
+            CardPageID := Page::"E3 Purchase Indent Card"; // Replace with your actual page name
+    end;
     #region Indent Approval Events
     [IntegrationEvent(false, false)]
     procedure OnSendIndentDocForApproval(var E3IndentHeader: Record "E3 Purchase Indent Header") //Send Approval Request
@@ -161,13 +167,23 @@ codeunit 50030 "E3 Indent Approval Mgmt."
     local procedure IndentRelease(RecRef: RecordRef; var Handled: Boolean)
     var
         E3IndentHeader: Record "E3 Purchase Indent Header";
+        ApprovalEntry: Record "Approval Entry";
     begin
         if RecRef.Number = DATABASE::"E3 Purchase Indent Header" Then begin
-            RecRef.SETTABLE(E3IndentHeader);
-            E3IndentHeader.VALIDATE(Status, E3IndentHeader.Status::Approved);
-            E3IndentHeader.MODIFY(true);
-            EnqueueEmailToSender(E3IndentHeader);
-            Handled := true;
+            if RecRef.Number = DATABASE::"E3 Purchase Indent Header" Then begin
+                RecRef.SETTABLE(E3IndentHeader);
+                E3IndentHeader.VALIDATE(Status, E3IndentHeader.Status::Approved);
+                ApprovalEntry.Reset();
+                ApprovalEntry.SetFilter("Table ID", '%1', 50036);
+                ApprovalEntry.SetRange("Document No.", E3IndentHeader."Document No.");
+                if ApprovalEntry.Find('-') then begin
+                    E3IndentHeader.validate("Approved By", ApprovalEntry."Approver ID");
+                    e3indentHeader.validate("Approval Date Time", ApprovalEntry."Last Date-Time Modified");
+                end;
+                E3IndentHeader.MODIFY(true);
+                EnqueueEmailToSender(E3IndentHeader);
+                Handled := true;
+            end;
         end;
     end;
 
@@ -495,6 +511,8 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         EmailBody := EmailBody + '</table>';
         EmailBody := EmailBody + '</br></br>';
     end;
+
+
 
     local procedure AddApprovalEntriesDetails(E3IndentHeader: Record "E3 Purchase Indent Header"; var EmailBody: Text)
     var

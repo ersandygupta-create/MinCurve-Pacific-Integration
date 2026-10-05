@@ -52,7 +52,7 @@ table 50036 "E3 Purchase Indent Header"
         }
         field(4; Status; Option)
         {
-            OptionMembers = Open,"Pending Approval",Approved,Rejected,Closed;
+            OptionMembers = Open,"Pending Approval",Approved,Rejected,Closed,Cancelled;
             Caption = 'Status';
         }
         field(5; "Shortcut Dimension 1 Code"; Code[10])
@@ -467,9 +467,11 @@ table 50036 "E3 Purchase Indent Header"
         RecordIndentLine: Record "E3 Purchase Indent Line";
     begin
         Testfield(Status, Status::Open);
-        RecordIndentLine.Reset();
-        RecordIndentLine.SetRange("Document No.", "Document No.");
-        RecordIndentLine.DeleteAll(true);
+        error('Indent No. %1 cannot be deleted as it is in %2 status.', "Document No.", Format(Status));
+        /*  RecordIndentLine.Reset();
+          RecordIndentLine.SetRange("Document No.", "Document No.");
+          RecordIndentLine.DeleteAll(true);
+          */
     end;
 
     trigger OnRename()
@@ -533,6 +535,32 @@ table 50036 "E3 Purchase Indent Header"
             until IndentLine.Next() = 0;
 
         Message(SuccessLbl, IndentHeader."Document No.");
+    end;
+    // Place inside table "E3 Purchase Indent Header" or your approval codeunit
+    procedure TestMandatoryFields()
+    var
+        IndentLine: Record "E3 Purchase Indent Line";
+    begin
+        // Header Level Mandatory Checks
+        Rec.TestField("indenter");
+        Rec.TestField("Requested To");
+        Rec.TestField("shortcut Dimension 2 Code");
+        Rec.TestField("To Department Code");
+        Rec.TestField("Shortcut Dimension 1 Code");
+        Rec.TestField("Expected Receive Date");
+        rec.TestField(Remarks);
+
+        // Line Level Mandatory Checks
+        IndentLine.SetRange("Document No.", Rec."Document No.");
+        if IndentLine.IsEmpty() then
+            Error('There are no lines on this Purchase Indent.');
+
+        if IndentLine.FindSet() then
+            repeat
+                IndentLine.TestField("Requested Qty");
+                IndentLine.TestField("Amount");
+                IndentLine.TestField("No.");
+            until IndentLine.Next() = 0;
     end;
 
 }

@@ -3261,6 +3261,12 @@ End Function</Code>
         <Field Name="Direct_Unit_CostFormat">
           <DataField>Direct_Unit_CostFormat</DataField>
         </Field>
+        <Field Name="GrossAmt">
+          <DataField>GrossAmt</DataField>
+        </Field>
+        <Field Name="GrossAmtFormat">
+          <DataField>GrossAmtFormat</DataField>
+        </Field>
         <Field Name="freeQty">
           <DataField>freeQty</DataField>
         </Field>

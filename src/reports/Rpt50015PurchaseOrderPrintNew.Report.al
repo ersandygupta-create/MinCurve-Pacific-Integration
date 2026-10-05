@@ -382,6 +382,10 @@ report 50015 "Purchase Order Print"
             "Direct Unit Cost")
             {
             }
+            column(GrossAmt; Quantity * "Unit Cost")
+            {
+
+            }
             column(freeQty; freeQty)
             {
             }

@@ -279,6 +279,7 @@ report 50023 "GRN Report"
         ExcelBuf.AddColumn('GRN No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Financial Year
         ExcelBuf.AddColumn('GRN Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Transaction Type
         ExcelBuf.AddColumn('Invoice No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Financial Quarter
+        ExcelBuf.AddColumn('Vendor Invoice No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Financial Quarter
         ExcelBuf.AddColumn('Invoice Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Transaction Type
         ExcelBuf.AddColumn('InvoiceBy', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//InvoiceBy
         ExcelBuf.AddColumn('Business Unit', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Type of Document
@@ -302,6 +303,87 @@ report 50023 "GRN Report"
         ExcelBuf.AddColumn('Service End Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Service end Date
 
 
+    end;
+
+    procedure GetPostedPurchaseInvoiceNo(PurchRcptHeader: Record "Purch. Rcpt. Header"): Code[20]
+    var
+        PurchRcptLine: Record "Purch. Rcpt. Line";
+        PurchInvLine: Record "Purch. Inv. Line";
+        PurchInvHeader: REcord "Purch. Inv. Header";
+    begin
+        PurchRcptLine.SetRange("Document No.", PurchRcptHeader."No.");
+        PurchRcptLine.SetFilter(Type, '<>%1', PurchRcptLine.Type::" ");
+        if PurchRcptLine.FindFirst() then begin
+            PurchInvLine.SetRange("Receipt No.", PurchRcptLine."Document No.");
+            PurchInvLine.SetRange("Receipt Line No.", PurchRcptLine."Line No.");
+            if PurchInvLine.FindFirst() then
+                exit(PurchInvLine."Document No.");
+
+
+        end;
+        exit('');
+    end;
+
+    procedure GetPostedPurchaseVendorInvoiceNo(PurchRcptHeader: Record "Purch. Rcpt. Header"): Code[20]
+    var
+        PurchRcptLine: Record "Purch. Rcpt. Line";
+        PurchInvLine: Record "Purch. Inv. Line";
+        PurchInvHeader: REcord "Purch. Inv. Header";
+    begin
+        PurchRcptLine.SetRange("Document No.", PurchRcptHeader."No.");
+        PurchRcptLine.SetFilter(Type, '<>%1', PurchRcptLine.Type::" ");
+        if PurchRcptLine.FindFirst() then begin
+            PurchInvLine.SetRange("Receipt No.", PurchRcptLine."Document No.");
+            PurchInvLine.SetRange("Receipt Line No.", PurchRcptLine."Line No.");
+            if PurchInvLine.FindFirst() then begin
+                PurchInvHeader.Get(PurchInvLine."Document No.");
+                exit(PurchInvHeader."Vendor Invoice No.");
+            end
+
+        end;
+        exit('');
+    end;
+
+
+    procedure GetPostedPurchaseInvoiceDate(PurchRcptHeader: Record "Purch. Rcpt. Header"): Date
+    var
+        PurchRcptLine: Record "Purch. Rcpt. Line";
+        PurchInvLine: Record "Purch. Inv. Line";
+        PurchInvHeader: Record "Purch. Inv. Header";
+    begin
+        PurchRcptLine.SetRange("Document No.", PurchRcptHeader."No.");
+        PurchRcptLine.SetFilter(Type, '<>%1', PurchRcptLine.Type::" ");
+        if PurchRcptLine.FindFirst() then begin
+            PurchInvLine.SetRange("Receipt No.", PurchRcptLine."Document No.");
+            PurchInvLine.SetRange("Receipt Line No.", PurchRcptLine."Line No.");
+            if PurchInvLine.FindFirst() then begin
+                exit(PurchInvHeader.Get(PurchInvLine."Document No.") ? PurchInvHeader."Document Date" : 0D);
+            end;
+        end;
+    end;
+
+    procedure GetPostedPurchaseInvoiceBy(PurchRcptHeader: Record "Purch. Rcpt. Header"): Text[50]
+    var
+        PurchRcptLine: Record "Purch. Rcpt. Line";
+        PurchInvLine: Record "Purch. Inv. Line";
+        PurchInvHeader: Record "Purch. Inv. Header";
+        User: Record User;
+    begin
+        PurchRcptLine.SetRange("Document No.", PurchRcptHeader."No.");
+        PurchRcptLine.SetFilter(Type, '<>%1', PurchRcptLine.Type::" ");
+        if PurchRcptLine.FindFirst() then begin
+            PurchInvLine.SetRange("Receipt No.", PurchRcptLine."Document No.");
+            PurchInvLine.SetRange("Receipt Line No.", PurchRcptLine."Line No.");
+            if PurchInvLine.FindFirst() then begin
+                if PurchInvHeader.Get(PurchInvLine."Document No.") then begin
+                    // Fetch User record using the SystemCreatedBy GUID
+                    if User.Get(PurchInvHeader.SystemCreatedBy) then
+                        exit(User."User Name"); // Returns User ID / Login Name
+                                                // exit(User."Full Name"); // Use this if you want the Full Name instead
+                end;
+            end;
+        end;
+        exit('');
     end;
 
     procedure MakeExcelDataBody()
@@ -338,9 +420,11 @@ report 50023 "GRN Report"
         PurchaseHeader.Reset();
         PurchaseHeader.SetRange("No.", PurchRecHeader."Order No.");
         if PurchaseHeader.FindFirst() then;
-        ExcelBuf.AddColumn(PurchaseHeader."Vendor Invoice No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
-        ExcelBuf.AddColumn(PurchaseHeader."Document Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
-        ExcelBuf.AddColumn(PurchRecHeader.InvoiceBy, false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn(GetPostedPurchaseInvoiceNo(PurchRecHeader), false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
+        ExcelBuf.AddColumn(GetPostedPurchaseVendorInvoiceNo(PurchRecHeader), false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
+
+        ExcelBuf.AddColumn(GetPostedPurchaseInvoiceDate(PurchRecHeader), false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
+        ExcelBuf.AddColumn(GetPostedPurchaseInvoiceBy(PurchRecHeader), false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);
         ExcelBuf.AddColumn(PurchRecHeader."Shortcut Dimension 1 Code", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
         ExcelBuf.AddColumn(PurchRecHeader."Posting Description", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Posting Description
         DimensionValue.Reset();

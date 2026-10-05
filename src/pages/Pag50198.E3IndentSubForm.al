@@ -27,6 +27,7 @@ page 50198 "E3 Pur. Indent Line Subform"
                 {
                     ApplicationArea = All;
                     Editable = IsLineEditable;
+                    showmandatory = true;
                 }
                 field(Description; Rec.Description)
                 {
@@ -59,11 +60,16 @@ page 50198 "E3 Pur. Indent Line Subform"
                 {
                     ApplicationArea = All;
                     Editable = IsLineEditable;
+                    trigger OnValidate()
+                    begin
+                        currpage.Update();
+                    end;
                 }
                 field(Amount; Rec.Amount)
                 {
                     ApplicationArea = All;
                     Editable = IsLineEditable;
+                    showmandatory = true;
                 }
                 field("Item Make Code"; Rec."Item Make Code")
                 {

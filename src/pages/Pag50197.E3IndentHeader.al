@@ -34,11 +34,13 @@ page 50197 "E3 Purchase Indent Card"
                 {
                     ApplicationArea = All;
                     Editable = IsPageEditable;
+                    showmandatory = true;
                 }
                 field(RequestedTo; Rec.RequestedTo)
                 {
                     ApplicationArea = All;
                     ToolTip = 'Requested to';
+                    showmandatory = true;
                 }
 
                 field("Request Date"; Rec."Request Date")
@@ -50,6 +52,7 @@ page 50197 "E3 Purchase Indent Card"
                 {
                     ApplicationArea = All;
                     Editable = IsPageEditable;
+                    showcaption = true;
                     trigger OnValidate()
                     begin
                         if Rec."Request Date" = 0D then
@@ -78,6 +81,7 @@ page 50197 "E3 Purchase Indent Card"
                 {
                     ApplicationArea = All;
                     Editable = IsPageEditable;
+                    showmandatory = true;
                 }
                 field(Status; Rec.Status)
                 {
@@ -136,32 +140,39 @@ page 50197 "E3 Purchase Indent Card"
                     ApplicationArea = All;
                     Caption = 'Business Unit';
                     Editable = IsPageEditable;
+                    ShowMandatory = true;
                 }
                 field("Business Unit Name"; Rec."Business Unit Name")
                 {
                     ApplicationArea = All;
                     Editable = false;
+                    showmandatory = true;
                 }
                 field("Shortcut Dimension 2 Code"; Rec."Shortcut Dimension 2 Code")
                 {
                     ApplicationArea = All;
                     Editable = IsPageEditable;
+                    ShowMandatory = true;
                     Caption = 'Department Code';
+
                 }
                 field("Department Name"; Rec."Department Name")
                 {
                     ApplicationArea = All;
                     Editable = false;
+                    ShowMandatory = true;
                 }
                 field("To Department Code"; Rec."To Department Code")
                 {
                     ApplicationArea = All;
                     Editable = IsPageEditable;
+                    ShowMandatory = true;
                 }
                 field("To Department Name"; Rec."To Department Name")
                 {
                     ApplicationArea = All;
                     Editable = IsPageEditable;
+                    ShowMandatory = true;
                 }
                 field("Location Code"; Rec."Location Code")
                 {
@@ -190,6 +201,7 @@ page 50197 "E3 Purchase Indent Card"
                 ApplicationArea = All;
                 Caption = 'Indent Line Subform';
                 SubPageLink = "Document No." = FIELD("Document No.");
+                UpdatePropagation = Both;
             }
         }
         area(factboxes)
@@ -230,6 +242,7 @@ page 50197 "E3 Purchase Indent Card"
                         IndentApproval: Codeunit "E3 Indent Approval Mgmt.";
                         IndentLine: Record "E3 Purchase Indent Line";
                     begin
+                        rec.TestMandatoryFields();
                         IndentLine.SetRange("Document No.", Rec."Document No.");
 
                         if IndentLine.FindSet() then
@@ -247,7 +260,30 @@ page 50197 "E3 Purchase Indent Card"
 
                         IndentApproval.OnSendIndentDocForApproval(Rec);
 
+                        // CurrPage.Update(true);
+                        currpage.Close();
+                    end;
+                }
+                action(CancelIndent)
+                {
+                    Caption = 'Cancel Indent';
+                    ApplicationArea = All;
+                    Image = Cancel;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    Visible = Rec.Status <> Rec.Status::Cancelled;
+
+                    trigger OnAction()
+                    begin
+                        if not Confirm('Are you sure you want to cancel this indent?', false) then
+                            exit;
+
+                        Rec.Status := Rec.Status::Cancelled;
+                        Rec.Modify(true);
+
                         CurrPage.Update(true);
+
+                        Message('Indent %1 has been cancelled successfully.', Rec."Document No.");
                     end;
                 }
 
