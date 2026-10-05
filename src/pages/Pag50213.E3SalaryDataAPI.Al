@@ -7,17 +7,15 @@ page 50213 "E3 Salary Data"
     APIGroup = 'salary';
     APIVersion = 'v2.0';
     Caption = 'Salary Data API';
-
     EntityName = 'salaryData';
     EntitySetName = 'salaryDatas';
-
     DelayedInsert = true;
 
     layout
     {
         area(Content)
         {
-            repeater(group)
+            repeater(General)
             {
 
             }
@@ -35,6 +33,8 @@ page 50213 "E3 Salary Data"
             }
             field(companyName; Rec.CompanyName)
             { }
+            field(departmentCode; Rec."Department Code")
+            { }
             field(departmentName; Rec.DepartmentName)
             { }
             field(branch; Rec.Branch)
@@ -42,6 +42,10 @@ page 50213 "E3 Salary Data"
             field(branchName; Rec.BranchName)
             { }
             field(employeeCode; Rec.EmployeeCode)
+            { }
+            field(employeeName; Rec."Employee Name")
+            { }
+            field(postingDate; Rec."Posting Date")
             { }
         }
     }

@@ -32,6 +32,12 @@ page 50214 "E3 Salary Data List"
                 {
                     ApplicationArea = All;
                 }
+                field("Department Code"; Rec."Department Code")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Department Code';
+                    ToolTip = 'Specifies the department code.';
+                }
                 field(departmentName; Rec.DepartmentName)
                 {
                     ApplicationArea = All;
@@ -47,6 +53,12 @@ page 50214 "E3 Salary Data List"
                 field(employeeCode; Rec.EmployeeCode)
                 {
                     ApplicationArea = All;
+                }
+                field("Employee Name"; Rec."Employee Name")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Employee Name';
+                    ToolTip = 'Specifies the employee name.';
                 }
                 field("Posting Date"; Rec."Posting Date")
                 {

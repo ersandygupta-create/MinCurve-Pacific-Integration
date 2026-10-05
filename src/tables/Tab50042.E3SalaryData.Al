@@ -24,7 +24,7 @@ table 50042 "E3 Salary Data"
             DataClassification = ToBeClassified;
             Caption = 'Company Name';
         }
-        field(5; DepartmentName; Code[20])
+        field(5; DepartmentName; Code[50])
         {
             DataClassification = ToBeClassified;
             Caption = 'Department Name';
@@ -64,6 +64,16 @@ table 50042 "E3 Salary Data"
             DataClassification = CustomerContent;
             Caption = 'JV Created';
         }
+        field(13; "Employee Name"; Text[100])
+        {
+            Caption = 'Employee Name';
+            DataClassification = CustomerContent;
+        }
+        field(14; "Department Code"; Code[20])
+        {
+            Caption = 'Department Code';
+            DataClassification = CustomerContent;
+        }
     }
 
 
@@ -74,10 +84,10 @@ table 50042 "E3 Salary Data"
             Clustered = true;
         }
     }
-    trigger OnInsert()
-    begin
-        "Posting Date" := Today();
-        Month := Format(Today(), 0, '<Month Text>-<Year4>');
-    end;
+    // trigger OnInsert()
+    // begin
+    //     "Posting Date" := Today();
+    //     Month := Format(Today(), 0, '<Month Text>-<Year4>');
+    // end;
 
 }
