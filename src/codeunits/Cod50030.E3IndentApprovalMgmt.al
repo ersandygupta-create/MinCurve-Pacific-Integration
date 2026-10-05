@@ -6,6 +6,7 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         if RecordRef.Number = Database::"E3 Purchase Indent Header" then
             CardPageID := Page::"E3 Purchase Indent Card"; // Replace with your actual page name
     end;
+
     #region Indent Approval Events
     [IntegrationEvent(false, false)]
     procedure OnSendIndentDocForApproval(var E3IndentHeader: Record "E3 Purchase Indent Header") //Send Approval Request
@@ -22,6 +23,7 @@ codeunit 50030 "E3 Indent Approval Mgmt."
     begin
     end;
     #endregion Indent Approval Events
+
     #region Indent Approval Subscribers
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"E3 Indent Approval Mgmt.", 'OnSendIndentDocForApproval', '', false, false)]
     local procedure RunWorkflowOnSendIndentDocForApproval(var E3IndentHeader: Record "E3 Purchase Indent Header")
@@ -47,6 +49,7 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         WorkflowManagement.HandleEvent(RunWorkflowOnAfterReleaseIndentDocCode(), E3IndentHeader);
     end;
     #endregion Indent Approval Subscribers
+
     #region Indent Approval Supported Functions
     local procedure RunWorkflowOnSendIndentDocForApprovalCode(): Code[128]
     begin
@@ -116,7 +119,35 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         if E3IndentHeader.Status <> E3IndentHeader.Status::Open then exit(false);
         exit(WorkflowManagement.CanExecuteWorkflow(E3IndentHeader, RunWorkflowOnSendIndentDocForApprovalCode()));
     end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Page Management", 'OnAfterGetPageID', '', false, false)]
+    local procedure OnAfterGetPageID(RecordRef: RecordRef; var PageID: Integer)
+    begin
+        if RecordRef.Number = Database::"E3 Purchase Indent Header" then
+            PageID := Page::"E3 Purchase Indent Card";
+    end;
+
+    /// <summary>
+    /// Generates the Web Client URL to directly open the Purchase Indent Card for a given document record.
+    /// </summary>
+    local procedure GetDocumentPageUrl(E3IndentHeader: Record "E3 Purchase Indent Header"): Text
+    var
+        PageManagement: Codeunit "Page Management";
+        RecordRef: RecordRef;
+        PageID: Integer;
+    begin
+        RecordRef.GetTable(E3IndentHeader);
+
+        // 1. Resolve the correct Card Page ID dynamically via Page Management
+        PageID := PageManagement.GetPageId(RecordRef);
+        if PageID = 0 then
+            PageID := Page::"E3 Purchase Indent Card"; // Fallback to explicitly specified card page
+
+        // 2. Use the built-in system function GETURL to generate the Web Client link
+        exit(GETURL(ClientType::Web, CompanyName(), ObjectType::Page, PageID, RecordRef, true));
+    end;
     #endregion Indent Approval Supported Functions
+
     #region Indent Approval Setup
     #region Workflow Event Handling Subscribers
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Event Handling", 'OnAddWorkflowEventsToLibrary', '', false, false)]
@@ -149,6 +180,7 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         end;
     end;
     #endregion Workflow Event Handling Subscribers
+
     #region Workflow Response Handling Subscribers
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Response Handling", 'OnOpenDocument', '', false, false)]
     local procedure IndentOpen(RecRef: RecordRef; var Handled: Boolean)
@@ -170,20 +202,18 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         ApprovalEntry: Record "Approval Entry";
     begin
         if RecRef.Number = DATABASE::"E3 Purchase Indent Header" Then begin
-            if RecRef.Number = DATABASE::"E3 Purchase Indent Header" Then begin
-                RecRef.SETTABLE(E3IndentHeader);
-                E3IndentHeader.VALIDATE(Status, E3IndentHeader.Status::Approved);
-                ApprovalEntry.Reset();
-                ApprovalEntry.SetFilter("Table ID", '%1', 50036);
-                ApprovalEntry.SetRange("Document No.", E3IndentHeader."Document No.");
-                if ApprovalEntry.Find('-') then begin
-                    E3IndentHeader.validate("Approved By", ApprovalEntry."Approver ID");
-                    e3indentHeader.validate("Approval Date Time", ApprovalEntry."Last Date-Time Modified");
-                end;
-                E3IndentHeader.MODIFY(true);
-                EnqueueEmailToSender(E3IndentHeader);
-                Handled := true;
+            RecRef.SETTABLE(E3IndentHeader);
+            E3IndentHeader.VALIDATE(Status, E3IndentHeader.Status::Approved);
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetFilter("Table ID", '%1', Database::"E3 Purchase Indent Header");
+            ApprovalEntry.SetRange("Document No.", E3IndentHeader."Document No.");
+            if ApprovalEntry.Find('-') then begin
+                E3IndentHeader.validate("Approved By", ApprovalEntry."Approver ID");
+                E3IndentHeader.validate("Approval Date Time", ApprovalEntry."Last Date-Time Modified");
             end;
+            E3IndentHeader.MODIFY(true);
+            EnqueueEmailToSender(E3IndentHeader);
+            Handled := true;
         end;
     end;
 
@@ -204,6 +234,7 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         end;
     end;
     #endregion Workflow Response Handling Subscribers
+
     #region Workflow Request Page Handling Subscribers
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Request Page Handling", 'OnAfterAssignEntitiesToWorkflowEvents', '', false, false)]
     local procedure AssignIndentEntitiestoWorkflow()
@@ -229,6 +260,7 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         InsertIndentLineReqPageFields();
     end;
     #endregion Workflow Request Page Handling Subscribers
+
     #region Add Indent Approval To Template
     procedure InsertIndentApprovalWorkflowTemplate()
     var
@@ -243,6 +275,7 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         WorkflowSetup.MarkWorkflowAsTemplate(Workflow);
     end;
     #endregion Add Indent Approval To Template
+
     #region Workflow Setup Subscribers
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Setup", 'OnAddWorkflowCategoriesToLibrary', '', false, false)]
     local procedure AddIndentWorflowToLibrary()
@@ -269,6 +302,7 @@ codeunit 50030 "E3 Indent Approval Mgmt."
     end;
     #endregion Workflow Setup Subscribers
     #endregion Indent Approval Setup
+
     #region Approvals Mgmt. Subscribers
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approvals Mgmt.", 'OnSetStatusToPendingApproval', '', false, false)]
     local procedure IndentApprovalToPendingApproval(RecRef: RecordRef; var IsHandled: Boolean; var Variant: Variant)
@@ -304,6 +338,7 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         end;
     end;
     #endregion Approvals Mgmt. Subscribers
+
     #region Check Approval Enabled
     procedure CheckIndentApprovalsWorkflowEnabled(VAR E3IndentHeader: Record "E3 Purchase Indent Header"): Boolean
     var
@@ -313,13 +348,13 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         exit(true);
     end;
     #endregion Check Approval Enabled
+
     #region Indent Approval Comment
     procedure CopyReqCommentsToApprovalComments(var E3IndentHeader: Record "E3 Purchase Indent Header")
     var
         CommentLine: Record "Comment Line";
         ApprovalCommentLine: Record "Approval Comment Line";
     begin
-        //CommentLine.SetRange("Table Name", CommentLine."Table Name"::"E3 Purchase Indent Header");//ak
         CommentLine.SetRange("No.", E3IndentHeader."Document No.");
         CommentLine.SetRange("Line No.", 0);
         If CommentLine.FindSet() then
@@ -341,7 +376,8 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         IF ApprovalCommentLine.FindSet() then ApprovalCommentLine.DeleteAll(true);
     end;
     #endregion Indent Approval Comment
-    #region Reqiusion Approval Emails
+
+    #region Requisition Approval Emails
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approvals Mgmt.", 'OnBeforeCreateApprovalEntryNotification', '', false, false)]
     local procedure EDCOnBeforeCreateApprovalEntryNotification(ApprovalEntry: Record "Approval Entry"; var IsHandled: Boolean)
     var
@@ -396,14 +432,19 @@ codeunit 50030 "E3 Indent Approval Mgmt."
     end;
 
     local procedure GetApprovedEmailBody(E3IndentHeader: Record "E3 Purchase Indent Header"; RecipientUserId: Code[50]) EmailBody: Text
+    var
+        DocumentUrl: Text;
     begin
+        DocumentUrl := GetDocumentPageUrl(E3IndentHeader);
         EmailBody := 'Dear ' + GetUserName(RecipientUserId) + ',</br></br>';
         EmailBody += 'I am writing to confirm that the Expenditure Indent that you requested has been released.</br></br>';
+        if DocumentUrl <> '' then
+            EmailBody += 'You can view the document in Business Central here: <a href="' + DocumentUrl + '">' + E3IndentHeader."Document No." + '</a></br></br>';
         AddCapexIndentDetails(E3IndentHeader, EmailBody);
         AddApprovalEntriesDetails(E3IndentHeader, EmailBody);
         EmailBody += 'Thank you for your cooperation and support.</br></br>';
         EmailBody += 'Regards,</br></br>';
-        EmailBody += 'System  Email, D365 E-Notification.';
+        EmailBody += 'System Email, D365 E-Notification.';
     end;
 
     local procedure EnqueueEmailToApprover(E3IndentHeader: Record "E3 Purchase Indent Header"; ApprovalEntry: Record "Approval Entry"): Boolean
@@ -434,7 +475,10 @@ codeunit 50030 "E3 Indent Approval Mgmt."
     end;
 
     local procedure GetSenderEmailBody(E3IndentHeader: Record "E3 Purchase Indent Header"; ApprovalEntry: Record "Approval Entry") EmailBody: Text
+    var
+        DocumentUrl: Text;
     begin
+        DocumentUrl := GetDocumentPageUrl(E3IndentHeader);
         EmailBody := 'Dear ' + GetUserName(ApprovalEntry."Approver ID") + ',</br></br>';
         Case ApprovalEntry.Status of
             ApprovalEntry.Status::Open:
@@ -446,18 +490,25 @@ codeunit 50030 "E3 Indent Approval Mgmt."
             ApprovalEntry.Status::Rejected:
                 EmailBody += 'Approval request for Document No.. ' + E3IndentHeader."Document No." + ' has been rejected by ' + ApprovalEntry."Approver ID" + '.</br></br>';
         end;
+        if DocumentUrl <> '' then
+            EmailBody += 'View Document in Business Central: <a href="' + DocumentUrl + '">' + E3IndentHeader."Document No." + '</a></br></br>';
     end;
 
     local procedure GetApprovalEmailBody(E3IndentHeader: Record "E3 Purchase Indent Header"; RecipientUserId: Code[50]) EmailBody: Text
+    var
+        DocumentUrl: Text;
     begin
+        DocumentUrl := GetDocumentPageUrl(E3IndentHeader);
         EmailBody := 'Dear ' + GetUserName(RecipientUserId) + ',</br></br>';
         EmailBody += 'I am writing to seek your approval for a Expenditure Indent that has been prepared in accordance with our company''s policies and guidelines.</br></br>';
+        if DocumentUrl <> '' then
+            EmailBody += 'Click here to open and review the document: <a href="' + DocumentUrl + '">' + E3IndentHeader."Document No." + '</a></br></br>';
         AddCapexIndentDetails(E3IndentHeader, EmailBody);
         EmailBody += 'Please review the attached Reference Indent for additional details. </br></br>';
         AddApprovalEntriesDetails(E3IndentHeader, EmailBody);
         EmailBody += 'Thank you for your cooperation and support.</br></br>';
         EmailBody += 'Regards,</br></br>';
-        EmailBody += 'System  Email, D365 E-Notification.';
+        EmailBody += 'System Email, D365 E-Notification.';
     end;
 
     local procedure GetUserName(PassedUserId: Code[50]): Text[80]
@@ -512,8 +563,6 @@ codeunit 50030 "E3 Indent Approval Mgmt."
         EmailBody := EmailBody + '</br></br>';
     end;
 
-
-
     local procedure AddApprovalEntriesDetails(E3IndentHeader: Record "E3 Purchase Indent Header"; var EmailBody: Text)
     var
         ApprovalEntry: Record "Approval Entry";
@@ -549,7 +598,8 @@ codeunit 50030 "E3 Indent Approval Mgmt."
             EmailBody := EmailBody + '</br></br>';
         end;
     end;
-    #endregion Reqiusion Approval Emails
+    #endregion Requisition Approval Emails
+
     var
         IndentDocumentCodeTxt: Label 'IndentDETAILDOC';
 }
