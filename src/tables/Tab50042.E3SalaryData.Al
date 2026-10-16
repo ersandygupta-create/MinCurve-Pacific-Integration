@@ -74,6 +74,11 @@ table 50042 "E3 Salary Data"
             Caption = 'Department Code';
             DataClassification = CustomerContent;
         }
+        field(15; Year; Text[20])
+        {
+            Caption = 'Year';
+            DataClassification = CustomerContent;
+        }
     }
 
 

@@ -70,6 +70,11 @@ page 50214 "E3 Salary Data List"
                     ApplicationArea = All;
                     ToolTip = 'Month';
                 }
+                field(Year; Rec.Year)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Year';
+                }
                 field(Created; Rec.Created)
                 {
                     ApplicationArea = all;

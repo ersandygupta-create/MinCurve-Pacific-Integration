@@ -47,6 +47,10 @@ page 50213 "E3 Salary Data"
             { }
             field(postingDate; Rec."Posting Date")
             { }
+            field(month; Rec.Month)
+            { }
+            field(year; Rec.Year)
+            { }
         }
     }
 }
