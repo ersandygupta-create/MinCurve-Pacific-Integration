@@ -278,6 +278,7 @@ report 50023 "GRN Report"
         ExcelBuf.AddColumn('Order Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Transaction Type
         ExcelBuf.AddColumn('GRN No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Financial Year
         ExcelBuf.AddColumn('GRN Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Transaction Type
+        ExcelBuf.AddColumn('PO Vendor Invoice No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Financial Quarter
         ExcelBuf.AddColumn('Invoice No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Financial Quarter
         ExcelBuf.AddColumn('Vendor Invoice No.', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Financial Quarter
         ExcelBuf.AddColumn('Invoice Date', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);//Transaction Type
@@ -417,6 +418,7 @@ report 50023 "GRN Report"
         ExcelBuf.AddColumn(PurchRecHeader."Order Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
         ExcelBuf.AddColumn(PurchRecHeader."No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
         ExcelBuf.AddColumn(PurchRecHeader."Posting Date", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//company
+        ExcelBuf.AddColumn(PurchRecHeader."Vendor Invoice No.", false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);//Vendor Invoice No.
         PurchaseHeader.Reset();
         PurchaseHeader.SetRange("No.", PurchRecHeader."Order No.");
         if PurchaseHeader.FindFirst() then;
