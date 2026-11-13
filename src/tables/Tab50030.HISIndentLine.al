@@ -129,6 +129,8 @@ table 50030 "E3 HIS Indent Line"
         field(17; "Location Code"; Code[20])
         {
             Caption = 'Location Code';
+            TableRelation = Location;
+            ValidateTableRelation = false;
             DataClassification = ToBeClassified;
         }
         field(18; "Shortcut Dimension 1 Code"; Code[20])
