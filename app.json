@@ -2,11 +2,7 @@
   "id": "edb8c7dd-4931-4e62-a693-45af77988a54",
   "name": "Pacific Integration",
   "publisher": "MindCurve",
-<<<<<<< HEAD
-  "version": "1.0.0.28",
-=======
-  "version": "1.0.0.30",
->>>>>>> e631ebde9c14acd56518c1d0c459918281bf3a90
+  "version": "1.0.0.31",
   "brief": "Pacific Integration",
   "description": "HIS Integration Pacific",
   "privacyStatement": "https://MindCurve.in",
