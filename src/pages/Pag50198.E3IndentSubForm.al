@@ -32,7 +32,7 @@ page 50198 "E3 Pur. Indent Line Subform"
                 field(Description; Rec.Description)
                 {
                     ApplicationArea = All;
-                    Editable = IsLineEditable;
+                    Editable = false;
                 }
                 field("Unit of Measure"; Rec."Unit of Measure")
                 {

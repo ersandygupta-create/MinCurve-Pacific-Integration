@@ -117,7 +117,7 @@ table 50029 "E3 HIS Indent Header"
         field(17; "Location Code"; Code[20])
         {
             Caption = 'Location Code';
-            TableRelation = Location;
+            //  TableRelation = Location;
             DataClassification = ToBeClassified;
         }
         field(18; "Error 1"; Boolean)
