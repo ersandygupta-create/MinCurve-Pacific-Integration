@@ -1096,8 +1096,6 @@ codeunit 50000 "E3 HIS Integration Mgmt."
             EXIT(FALSE);
     end;
 
-
-
     procedure InitGenJnlLineConsumptionEntry()
     var
         GenJournalLine: Record "Gen. Journal Line";
@@ -1181,7 +1179,7 @@ codeunit 50000 "E3 HIS Integration Mgmt."
                     GenJournalLine."E3 Narration" := COPYSTR(HISConsumptionEntry."Line Narration", 1, 50);
                     GenJournalLine."E3 HIS Module" := HISConsumptionEntry."HIS Module";
                     GenJournalLine."E3 HIS Document Type" := COPYSTR(HISConsumptionEntry."HIS Document Type", 1, 60);
-                    GenJournalLine."E3 Sub Group Code" := HISConsumptionEntry."Sub Group";
+                    GenJournalLine."E3 Sub Group Code" := COPYSTR(HISConsumptionEntry."Sub Group", 1, 10);
                     GenJournalLine."E3 Receipt No." := COPYSTR(HISConsumptionEntry."Receipt No.", 1, 20);
                     GenJournalLine."E3 UHID" := HISConsumptionEntry.UHID;
                     GenJournalLine."E3 Validation Key" := HISConsumptionEntry."Validation HIS Key";

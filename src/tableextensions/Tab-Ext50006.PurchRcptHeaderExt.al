@@ -59,6 +59,11 @@ tableextension 50006 "E3 HIS Purch. Rcpt. Header" extends "Purch. Rcpt. Header"
             Caption = 'Indent No.';
             DataClassification = CustomerContent;
         }
+        field(60000; "Vendor Invoice No."; Text[35])
+        {
+            Caption = 'Vendor Invoice No';
+            DataClassification = ToBeClassified;
+        }
 
     }
 }

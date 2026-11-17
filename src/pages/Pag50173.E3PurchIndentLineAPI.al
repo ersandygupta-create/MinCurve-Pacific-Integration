@@ -85,6 +85,15 @@ page 50173 "E3 Purchase Indent Line API"
                 {
                     Caption = 'Station SI No';
                 }
+                field(shortcutDimension1Code; Rec."Shortcut Dimension 1 Code")
+                {
+                    Caption = 'Shortcut Dimension 1 Code';
+                }
+                field(locationCode; Rec."Location Code")
+                {
+                    Caption = 'Location Code';
+                }
+
             }
         }
     }

@@ -11,6 +11,13 @@ pageextension 50066 "Posted Purch Receipt Card Ext" extends "Posted Purchase Rec
                 Caption = 'Posting Description';
                 ToolTip = 'Specifies a posting description of the order.';
             }
+            field("Vendor Invoice No."; Rec."Vendor Invoice No.")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                Caption = 'Vendor Invoice No';
+                ToolTip = 'Specifies a vendor invoice number of the order.';
+            }
         }
 
     }

@@ -348,4 +348,11 @@ codeunit 50001 "E3 HIS Event Subscriber"
         ToRecRef.GetTable(PurchaseHeader);
         DocumentAttachmentMgmt.CopyAttachments(FromRecRef, ToRecRef);
     end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch.-Post", 'OnBeforePurchRcptHeaderInsert', '', false, false)]
+    local procedure OnBeforePurchRcptHeaderInsert(var PurchRcptHeader: Record "Purch. Rcpt. Header"; var PurchaseHeader: Record "Purchase Header"; CommitIsSupressed: Boolean)
+    begin
+        PurchRcptHeader."Vendor Invoice No." := PurchaseHeader."Vendor Invoice No.";
+    end;
+
 }
