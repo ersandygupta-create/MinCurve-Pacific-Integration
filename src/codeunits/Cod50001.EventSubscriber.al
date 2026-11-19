@@ -355,4 +355,20 @@ codeunit 50001 "E3 HIS Event Subscriber"
         PurchRcptHeader."Vendor Invoice No." := PurchaseHeader."Vendor Invoice No.";
     end;
 
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Post", 'OnBeforePostSalesDoc', '', false, false)]
+    local procedure CheckOrderAmountonSalesDoc(var SalesHeader: Record "Sales Header")
+    var
+        CalcStatistics: Codeunit "Calculate Statistics";
+        AmountToCustomer: Decimal;
+    begin
+        if (SalesHeader."Document Type" = SalesHeader."Document Type"::Invoice)
+                            or (SalesHeader."Document Type" = SalesHeader."Document Type"::"Credit Memo") then
+            if SalesHeader."Integration PO Created" then begin
+                CalcStatistics.GetSalesStatisticsAmount(SalesHeader, AmountToCustomer);
+                if ABS(SalesHeader."Order Amount" - AmountToCustomer) > 1 then
+                    Error('Difference between Order Amount and Amount to customer cannot be more than 1.');
+            end;
+    end;
+
+
 }

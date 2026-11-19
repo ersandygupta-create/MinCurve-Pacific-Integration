@@ -356,8 +356,9 @@ codeunit 50027 "E3 HIS Indent Integration"
             PurchHeader.VALIDATE("Order Date", HISPurchaseSaleHeader."Document Date");
             PurchHeader.VALIDATE("Posting Date", HISPurchaseSaleHeader."Posting Date");
             PurchHeader.VALIDATE("Vendor Invoice No.", HISPurchaseSaleHeader."Invoice No." + '-P');
-            PurchHeader.VALIDATE("Location Code", HISPurchaseSaleHeader."Shortcut Dimension 1 Code");
-            PurchHeader.VALIDATE(PurchHeader."Shortcut Dimension 1 Code", HISPurchaseSaleHeader."Shortcut Dimension 1 Code");
+            PurchHeader.Validate("Responsibility Center", HISPurchaseSaleHeader."Location Code");
+            PurchHeader.VALIDATE(PurchHeader."Shortcut Dimension 1 Code", HISPurchaseSaleHeader."Location Code");
+            PurchHeader.VALIDATE("Location Code", HISPurchaseSaleHeader."Location Code");
             PurchHeader.VALIDATE(PurchHeader."Shortcut Dimension 2 Code", HISPurchaseSaleHeader."Shortcut Dimension 2 Code");
             PurchHeader.VALIDATE(PurchHeader."Vendor Order No.", HISPurchaseSaleHeader."Indent Order No.");
             PurchHeader.VALIDATE(PurchHeader."Order Amount", HISPurchaseSaleHeader.Amount);
@@ -396,14 +397,14 @@ codeunit 50027 "E3 HIS Indent Integration"
                         PurchLine.VALIDATE(Quantity, HISPurchaseSaleLine."Received QTY")
                     ELSE
                         PurchLine.VALIDATE(Quantity, HISPurchaseSaleLine."Free QTY");
-                    PurchLine.VALIDATE("Location Code", HISPurchaseSaleLine."Location Code");
+                    PurchLine.VALIDATE("Location Code", HISPurchaseSaleHeader."Location Code");
                     PurchLine.VALIDATE("Direct Unit Cost", HISPurchaseSaleLine."Unit Cost");
-                    PurchLine.VALIDATE(PurchLine."Shortcut Dimension 1 Code", HISPurchaseSaleLine."Shortcut Dimension 1 Code");
+                    PurchLine.VALIDATE(PurchLine."Shortcut Dimension 1 Code", HISPurchaseSaleHeader."Location Code");
                     PurchLine.VALIDATE(PurchLine."Shortcut Dimension 2 Code", HISPurchaseSaleLine."Shortcut Dimension 2 Code");
                     PurchLine.Description := COPYSTR(HISPurchaseSaleLine."Item Name", 1, 100);
                     PurchLine.VALIDATE("Line Discount Amount", HISPurchaseSaleLine.Discount);
                     PurchLine."Vendor Item No." := HISPurchaseSaleLine."Item No.";
-                    PurchLine.Validate("GST Group Code", HISPurchaseSaleLine."GST Per");
+                    PurchLine.VALIDATE("GST Group Code", Format(HISPurchaseSaleLine."GST Per", 0, '<Precision,0:0>'));
                     PurchLine.Validate("HSN/SAC Code", HISPurchaseSaleLine."Service Code");
 
                     PurchLine.INSERT(TRUE);
@@ -718,7 +719,6 @@ codeunit 50027 "E3 HIS Indent Integration"
 
     END;
 
-
     procedure InitSalesOrder(RecordType: Option; DocumentType: Option; DocumentNo: CODE[20])
     var
         PurchHeader: Record "Sales Header";
@@ -762,8 +762,9 @@ codeunit 50027 "E3 HIS Indent Integration"
             PurchHeader.VALIDATE("Order Date", HISPurchaseSaleHeader."Document Date");
             PurchHeader.VALIDATE("Posting Date", HISPurchaseSaleHeader."Posting Date");
             PurchHeader.VALIDATE("External Document No.", HISPurchaseSaleHeader."Document No.");
-            PurchHeader.VALIDATE("Location Code", HISPurchaseSaleHeader."Shortcut Dimension 1 Code");
-            PurchHeader.VALIDATE(PurchHeader."Shortcut Dimension 1 Code", HISPurchaseSaleHeader."Shortcut Dimension 1 Code");
+            PurchHeader.Validate("Responsibility Center", HISPurchaseSaleHeader."Location Code");
+            PurchHeader.VALIDATE(PurchHeader."Shortcut Dimension 1 Code", HISPurchaseSaleHeader."Location Code");
+            PurchHeader.VALIDATE("Location Code", HISPurchaseSaleHeader."Location Code");
             PurchHeader.VALIDATE(PurchHeader."Shortcut Dimension 2 Code", HISPurchaseSaleHeader."Shortcut Dimension 2 Code");
             PurchHeader.VALIDATE(PurchHeader."Your Reference", HISPurchaseSaleHeader."Indent Order No.");
             PurchHeader.VALIDATE("Posting No. Series", '');
@@ -799,14 +800,14 @@ codeunit 50027 "E3 HIS Indent Integration"
                     //PurchLine.VALIDATE(Quantity, 1)
                     ELSE
                         PurchLine.VALIDATE(Quantity, HISPurchaseSaleLine."Free QTY");
-                    PurchLine.VALIDATE("Location Code", HISPurchaseSaleHeader."Shortcut Dimension 1 Code");
+                    PurchLine.VALIDATE("Location Code", HISPurchaseSaleHeader."Location Code");
                     PurchLine.VALIDATE(PurchLine."Unit Price", HISPurchaseSaleLine."Unit Cost");
                     //PurchLine.VALIDATE(PurchLine."Unit Price", HISPurchaseSaleLine.Amount);
-                    PurchLine.VALIDATE(PurchLine."Shortcut Dimension 1 Code", HISPurchaseSaleHeader."Shortcut Dimension 1 Code");
+                    PurchLine.VALIDATE(PurchLine."Shortcut Dimension 1 Code", HISPurchaseSaleHeader."Location Code");
                     PurchLine.VALIDATE(PurchLine."Shortcut Dimension 2 Code", HISPurchaseSaleLine."Shortcut Dimension 2 Code");
                     PurchLine.Description := COPYSTR(HISPurchaseSaleLine."Item Name", 1, 100);
                     PurchLine.VALIDATE("Line Discount Amount", HISPurchaseSaleLine.Discount);
-                    PurchLine.VALIDATE("GST Group Code", HISPurchaseSaleLine."GST Per");
+                    PurchLine.VALIDATE("GST Group Code", Format(HISPurchaseSaleLine."GST Per", 0, '<Precision,0:0>'));
                     PurchLine.VALIDATE("HSN/SAC Code", HISPurchaseSaleLine."Service Code");
                     PurchLine.VALIDATE(PurchLine."BatchNo", HISPurchaseSaleLine."BatchNo");
                     PurchLine.VALIDATE(PurchLine."ExpiryDate", HISPurchaseSaleLine."ExpiryDate");
